@@ -298,6 +298,14 @@
     }, { margin: "0px 0px -8% 0px" });
   });
 
+  // ---------- Promise strip: the icons draw themselves in, one after another ----------
+  const promiseItems = $$(".promise__item");
+  if (promiseItems.length) {
+    const stopPromise = inView(".promise", () => {
+      stopPromise();
+      introDone.then(() => promiseItems.forEach((it, i) => setTimeout(() => it.classList.add("is-drawn"), 350 + i * 170)));
+    }, { margin: "0px 0px -10% 0px" });
+  }
   // ---------- Catalogue entrance: cards rise softly, photos iris open like the emblem ----------
   const IRIS_CLOSED = circle(0, 50, 55), IRIS_OPEN = circle(85, 50, 55);
   function revealCards(cards) {
