@@ -465,7 +465,7 @@
     if (finePointer) {
       addEventListener("pointermove", (e) => { mx = e.clientX / innerWidth - 0.5; my = e.clientY / innerHeight - 0.5; }, { passive: true });
       letters.forEach((l) => l.addEventListener("pointerenter", () =>
-        animate(l, { z: [0, 90, 0], rotateX: [0, -28, 0], color: ["#23241f", "#646b35", "#23241f"] }, { duration: 0.8, ease: easeOut })));
+        animate(l, { z: [0, 90, 0], rotateX: [0, -28, 0], color: ["#2b211b", "#b4583a", "#2b211b"] }, { duration: 0.8, ease: easeOut })));
     }
   }
 
@@ -483,12 +483,12 @@
   document.addEventListener("pointermove", (e) => {
     const lift = e.target.closest("#grid .card__img, #wall .card__img");
     if (lifted && lifted !== lift) {
-      animate(lifted, { y: 0, boxShadow: "0 0px 0px rgba(35,36,31,0)" }, { duration: 0.5, ease: easeOut });
+      animate(lifted, { y: 0, boxShadow: "0 0px 0px rgba(43,33,27,0)" }, { duration: 0.5, ease: easeOut });
       lifted = null;
     }
     if (lift && lift !== lifted) {
       lifted = lift;
-      animate(lift, { y: -6, boxShadow: "0 18px 34px rgba(35,36,31,0.16)" }, { duration: 0.5, ease: easeOut });
+      animate(lift, { y: -6, boxShadow: "0 18px 34px rgba(43,33,27,0.16)" }, { duration: 0.5, ease: easeOut });
     }
     const img = lift ? null : e.target.closest(".cat__img, .size-tile__img, .occ__img");
     if (tilted && tilted !== img) { untilt(tilted); tilted = null; }
