@@ -102,8 +102,25 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
     linear-gradient(180deg, rgba(36, 26, 21, .2) 0%, rgba(36, 26, 21, 0) 40%, rgba(36, 26, 21, .85) 100%); }
 .hero__head { text-align: center; display: grid; justify-items: center; gap: 10px; position: relative; z-index: 2; perspective: 900px; }
 .hero__head .eyebrow { margin: 0; }
-.hero__title { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 6.2vw, 5.6rem); line-height: 1; letter-spacing: -.03em; margin: 0; color: var(--on-dark); transform-style: preserve-3d; }
-.hero__title .l3 { text-shadow: 0 .01em 0 #bb6f4e, 0 .02em 0 #a85f40, 0 .03em 0 #9c4c30, 0 .04em 0 #86402a, 0 .05em 0 #713623, 0 .12em .14em rgba(0, 0, 0, .45); }
+.hero__title { font-family: var(--serif); font-weight: 400; font-size: clamp(2.9rem, 7.4vw, 6.6rem); line-height: 1; letter-spacing: -.03em; margin: 0; color: var(--on-dark); transform-style: preserve-3d; }
+/* Without the motion layer the title keeps a painted-on clay edge */
+.hero__title { text-shadow: 0 .01em 0 #bb6f4e, 0 .02em 0 #a85f40, 0 .03em 0 #9c4c30, 0 .04em 0 #86402a, 0 .05em 0 #713623, 0 .12em .14em rgba(0, 0, 0, .45); }
+.fx .hero__title { text-shadow: none; }
+.hero__head { perspective: 1100px; }
+
+/* Solid 3D letters: a glazed face in front of stacked clay layers */
+.t3w { display: inline-block; white-space: nowrap; transform-style: preserve-3d; }
+.t3 { display: inline-block; position: relative; transform-style: preserve-3d; cursor: default; }
+.t3__in { display: block; position: relative; transform-style: preserve-3d; }
+.t3__side { position: absolute; left: 0; top: 0; transform: translateZ(calc(var(--d) * -2px)); pointer-events: none; }
+.t3__side:last-of-type { text-shadow: 0 .14em .22em rgba(0, 0, 0, .55); }
+.t3__face { position: relative; display: block; color: transparent;
+  /* a band of light travels across the glaze, letter by letter */
+  background: linear-gradient(105deg, #f3e3cf 0%, #f6eadb 40%, #fffaf2 47%, #ffffff 50%, #e8c7a7 55%, #f6eadb 62%, #efdcc6 100%);
+  background-size: 320% 100%; background-position: 100% 0;
+  -webkit-background-clip: text; background-clip: text;
+  animation: glaze-sheen 5.5s ease-in-out infinite; animation-delay: calc(var(--i) * .09s); }
+@keyframes glaze-sheen { 0%, 25% { background-position: 100% 0; } 70%, 100% { background-position: 0% 0; } }
 
 /* The orbit stage */
 .orbit { --r: 300px; --cw: 104px; --ch: 132px; --coin: 176px; position: relative; height: clamp(320px, 46vh, 430px); perspective: 1300px; perspective-origin: 50% 35%; touch-action: pan-y; cursor: grab; user-select: none; }

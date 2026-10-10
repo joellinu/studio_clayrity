@@ -22,6 +22,7 @@
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const clamp01 = (v) => Math.max(0, Math.min(1, v));
   const circle = (r, x = 50, y = 50) => `circle(${r}% at ${x}% ${y}%)`;
+  const rand = (lo, hi) => lo + Math.random() * (hi - lo);
 
   // Wrap each word (or letter) in a mask so it can slide up into view.
   // "3d" splits into unmasked letters that can rotate in space (masks would flatten them).
@@ -39,6 +40,23 @@
     return $$(".w__in", el);
   }
 
+  // Build solid 3D letters. Each letter = a glazed face + `depth` clay layers stacked behind it.
+  // Words stay together so the title can still wrap on narrow screens.
+  function buildSolidTitle(el, depth) {
+    const text = el.textContent.trim();
+    el.setAttribute("aria-label", text);
+    const clay = (k) => { // light terracotta at the front to dark fired clay at the back
+      const a = [208, 134, 100], b = [94, 47, 28], f = k / Math.max(1, depth - 1);
+      return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * f)).join(",")})`;
+    };
+    let i = 0;
+    el.innerHTML = text.split(/\s+/).map((word) => `<span class="t3w">${[...word].map((ch) => {
+      const sides = Array.from({ length: depth }, (_, k) =>
+        `<span class="t3__side" style="--d:${k + 1};color:${clay(k)}">${ch}</span>`).join("");
+      return `<span class="t3" style="--i:${i++}" aria-hidden="true"><span class="t3__in">${sides}<span class="t3__face">${ch}</span></span></span>`;
+    }).join("")}</span>`).join(" ");
+    return $$(".t3", el);
+  }
   // ---------- Intro: emblem and name appear, then the curtain closes into the emblem's circle ----------
   let seen = false;
   try { seen = sessionStorage.getItem("clayrity-intro") === "1"; sessionStorage.setItem("clayrity-intro", "1"); } catch {}
@@ -110,16 +128,18 @@
   const heroHead = $(".hero__head");
   const heroFoot = $(".hero__foot");
   const heroTitle = $(".hero__title");
-  const titleLetters = split(heroTitle, "3d");
+  // The title is built as solid 3D letters: a glazed front face plus stacked clay layers behind it
+  const titleLetters = buildSolidTitle(heroTitle, small ? 7 : 13);
+  const titleCores = titleLetters.map((l) => $(".t3__in", l));
   const orbIns = $$(".orb__in", ringEl);
   const heroEyebrow = $(".eyebrow", heroHead);
   const footBits = [...heroFoot.children];
 
-  titleLetters.forEach((l) => { l.style.opacity = 0; l.style.transform = "rotateX(-95deg) translateY(30%)"; });
+  titleLetters.forEach((l) => { l.style.opacity = 0; l.style.transform = "translateZ(-700px)"; });
   orbIns.forEach((o) => (o.style.opacity = 0));
   [coinWrap, wordsEl, heroEyebrow, ...footBits].forEach((el) => (el.style.opacity = 0));
 
-  let ringA = 0, coinA = 0, coinBoost = 0, vel = 0, heroP = 0;
+  let ringA = 0, coinA = 0, coinBoost = 0, vel = 0, heroP = 0, titleSettled = Infinity, ripple = 0;
   let otx = 0, oty = 0, aimX = 0, aimY = 0, dragging = false, dragDist = 0, lastX = 0, lastT = 0, running = false, frameT = 0;
 
   introDone.then(() => {
@@ -128,8 +148,12 @@
     animate(orbIns, { opacity: [0, 1], scale: [0.3, 1], y: [60, 0] }, { type: "spring", stiffness: 120, damping: 15, delay: stagger(0.06, { startDelay: 0.25 }) });
     animate(wordsEl, { opacity: [0, 1] }, { duration: 1.2, delay: 0.9 });
     animate(heroEyebrow, { opacity: [0, 1], y: [12, 0] }, { duration: 0.8, ease: easeOut, delay: 0.2 });
-    animate(titleLetters, { rotateX: [-95, 0], y: ["30%", "0%"], opacity: [0, 1] },
-      { type: "spring", stiffness: 130, damping: 14, delay: stagger(0.05, { startDelay: 0.35 }) });
+    // Letters fly in from deep in the scene, tumbling, and lock into place
+    titleLetters.forEach((l, i) => {
+      animate(l, { z: [-700, 0], rotateY: [rand(-140, 140), 0], rotateX: [rand(-70, 70), 0], opacity: [0, 1] },
+        { type: "spring", stiffness: 70, damping: 11, mass: 0.9, delay: 0.3 + i * 0.055 });
+    });
+    titleSettled = performance.now() + 2200; // the idle ripple starts once they've landed
     animate(footBits, { opacity: [0, 1], y: [18, 0] }, { duration: 0.9, ease: easeOut, delay: stagger(0.12, { startDelay: 1.1 }) });
   });
 
@@ -147,7 +171,18 @@
     ringEl.style.transform = `rotateY(${ringA.toFixed(2)}deg)`;
     wordsEl.style.transform = `rotateY(${(-ringA * 1.6).toFixed(2)}deg)`;
     coinSpin.style.transform = `rotateY(${coinA.toFixed(2)}deg)`;
-    heroTitle.style.transform = `rotateX(${(oty * 0.6).toFixed(2)}deg) rotateY(${(otx * 0.5).toFixed(2)}deg)`;
+    // Title: a slow 3D sway (so its depth shows) plus a lean toward the mouse
+    const sec = t / 1000;
+    const swayY = Math.sin(sec * 0.55) * (small ? 9 : 14), swayX = Math.sin(sec * 0.37) * 5;
+    heroTitle.style.transform = `rotateX(${(swayX + oty * 1.4).toFixed(2)}deg) rotateY(${(swayY + otx * 1.3).toFixed(2)}deg)`;
+    // A gentle ripple runs through the letters, each lifting toward you in turn
+    if (t > titleSettled) {
+      ripple = Math.min(1, ripple + dt * 0.6);
+      titleCores.forEach((c, i) => {
+        const w = Math.sin(sec * 1.8 - i * 0.45);
+        c.style.transform = `translateZ(${(w * 14 * ripple).toFixed(1)}px) rotateX(${(w * -6 * ripple).toFixed(2)}deg)`;
+      });
+    }
     requestAnimationFrame(orbitFrame);
   }
   inView(hero, () => {
@@ -180,6 +215,16 @@
       aimY = ((e.clientY - r.top) / r.height - 0.5) * -10;
     });
     hero.addEventListener("pointerleave", () => { aimX = 0; aimY = 0; });
+  }
+  if (finePointer) {
+    titleLetters.forEach((l) => {
+      let spinning = false;
+      l.addEventListener("pointerenter", () => {
+        if (spinning || performance.now() < titleSettled) return;
+        spinning = true;
+        animate(l, { rotateY: [0, 360], z: [0, 60, 0] }, { duration: 1.1, ease: [0.65, 0, 0.35, 1] }).then(() => (spinning = false));
+      });
+    });
   }
   // ---------- Header logo: emblem spins in, letters flip into place; hover rolls a 3D wave ----------
   const logo = $(".header .logo");
@@ -553,7 +598,7 @@
 
   // Safety net: if the opening hasn't finished after 6 seconds (a browser quirk), reveal everything
   setTimeout(() => {
-    const title = document.querySelector(".hero__title .l3");
+    const title = document.querySelector(".hero__title .t3, .hero__title .l3");
     if (document.querySelector(".intro") || (title && getComputedStyle(title).opacity === "0")) plainPage();
   }, 6000);
 })();
