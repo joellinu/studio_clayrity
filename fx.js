@@ -8,6 +8,7 @@
 // ============================================================
 (() => {
   if (!window.Motion || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  try {
   const { animate, inView, stagger } = window.Motion;
   document.documentElement.classList.add("fx");
 
@@ -65,6 +66,7 @@
     $(".intro__sub", intro).style.opacity = 0;
 
     introDone = new Promise((resolve) => {
+     try {
       let finished = false;
       const lift = () => {
         if (finished) return;
@@ -72,11 +74,14 @@
         // Close the curtain into the emblem: a shrinking circle centred on it
         const r = emblem.getBoundingClientRect();
         const x = ((r.left + r.width / 2) / innerWidth) * 100, y = ((r.top + r.height / 2) / innerHeight) * 100;
-        animate(intro, { clipPath: [circle(150, x, y), circle(0, x, y)] }, { duration: 1.1, ease: easeInOut })
-          .then(() => intro.remove());
+        try {
+          animate(intro, { clipPath: [circle(150, x, y), circle(0, x, y)] }, { duration: 1.1, ease: easeInOut })
+            .then(() => intro.remove());
+        } catch { intro.remove(); }
         setTimeout(resolve, 380); // the hero starts opening while the curtain closes
       };
       intro.addEventListener("click", lift);
+      setTimeout(() => { if (intro.isConnected) intro.remove(); resolve(); }, 4000); // hard stop
       animate(emblem, { opacity: [0, 1], scale: [0.7, 1], rotate: [-25, 0] }, { type: "spring", stiffness: 120, damping: 14, delay: 0.1 });
       animate(ring, { strokeDashoffset: [1, 0] }, { duration: 1.2, ease: easeInOut, delay: 0.2 });
       animate(letters, { rotateX: [-100, 0], z: [-120, 0], opacity: [0, 1] },
@@ -84,6 +89,13 @@
       animate(introMark, { rotateY: [-24, 0], rotateX: [10, 0] }, { duration: 1.6, ease: easeOut, delay: 0.35 });
       animate($(".intro__sub", intro), { opacity: [0, 1], y: [8, 0] }, { duration: 0.6, delay: 1.1 });
       setTimeout(lift, 2300);
+     } catch (err) {
+      // The intro failed on this browser: drop it and show the plain page
+      console.error("Intro stopped:", err);
+      intro.remove();
+      resolve();
+      setTimeout(plainPage, 0);
+     }
     });
   }
 
@@ -307,7 +319,7 @@
     if (img) img.style.clipPath = IRIS_CLOSED;
   });
   const rows = [];
-  firstCards.forEach((c, i) => (rows[Math.floor(i / 4)] ||= []).push(c));
+  firstCards.forEach((c, i) => (rows[Math.floor(i / 4)] = rows[Math.floor(i / 4)] || []).push(c));
   rows.forEach((row) => {
     const stop = inView(row[0], () => { stop(); introDone.then(() => revealCards(row)); }, { margin: "0px 0px -8% 0px" });
   });
@@ -513,4 +525,27 @@
     cursor.style.left = `${cx.toFixed(1)}px`; cursor.style.top = `${cy.toFixed(1)}px`;
     requestAnimationFrame(follow);
   })();
+  } catch (err) {
+    // Something in the motion layer failed on this browser: show the plain, fully visible page instead
+    console.error("Motion layer stopped:", err);
+    plainPage();
+  }
+
+  function plainPage() {
+    document.documentElement.classList.remove("fx");
+    const intro = document.querySelector(".intro");
+    if (intro) intro.remove();
+    document.querySelectorAll(".w__in, .l3, .orb__in, .card, .reveal, .hero *, .header *, .footer__mark *, .process__step").forEach((el) => {
+      el.style.opacity = "";
+      el.style.transform = "";
+      el.style.filter = "";
+    });
+    document.querySelectorAll(".card__img > img").forEach((img) => (img.style.clipPath = ""));
+  }
+
+  // Safety net: if the opening hasn't finished after 6 seconds (a browser quirk), reveal everything
+  setTimeout(() => {
+    const title = document.querySelector(".hero__title .l3");
+    if (document.querySelector(".intro") || (title && getComputedStyle(title).opacity === "0")) plainPage();
+  }, 6000);
 })();

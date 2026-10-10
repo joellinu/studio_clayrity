@@ -119,7 +119,7 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
 .orb__in:focus-visible { outline: 2px solid var(--olive-soft); outline-offset: 3px; }
 .orbit__words { --rt: calc(var(--coin) * .9); }
 .orbit__words span { position: absolute; left: -.5em; top: -.6em; width: 1em; text-align: center; font-size: .78rem; font-weight: 600; letter-spacing: 0; text-transform: uppercase; color: var(--olive-soft);
-  transform: rotateY(calc(var(--i) * var(--step))) translateZ(var(--rt)); backface-visibility: hidden; }
+  transform: rotateY(calc(var(--i) * var(--step))) translateZ(var(--rt)); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .orbit__floor { position: absolute; left: 50%; top: 52%; width: calc(var(--r) * 2.7); height: calc(var(--r) * 2.7); margin: calc(var(--r) * -1.35) 0 0 calc(var(--r) * -1.35);
   transform: translateY(calc(var(--ch) * .5 + 14px)) rotateX(90deg); border-radius: 50%; pointer-events: none;
   background: radial-gradient(circle, rgba(182, 187, 134, .28) 0%, rgba(182, 187, 134, 0) 62%),
@@ -130,8 +130,8 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
 .coin { width: var(--coin); height: var(--coin); margin: calc(var(--coin) / -2) 0 0 calc(var(--coin) / -2); }
 .coin__spin { position: absolute; inset: 0; transform-style: preserve-3d; }
 .coin__face, .coin__back, .coin__edge { position: absolute; inset: 0; border-radius: 50%; }
-.coin__face { width: 100%; height: 100%; transform: translateZ(6px); backface-visibility: hidden; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .6); }
-.coin__back { transform: rotateY(180deg) translateZ(6px); backface-visibility: hidden; background: radial-gradient(circle at 35% 30%, #7a8247, var(--accent-dark)); display: grid; place-items: center; box-shadow: inset 0 0 0 2px rgba(236, 230, 216, .35); }
+.coin__face { width: 100%; height: 100%; transform: translateZ(6px); -webkit-backface-visibility: hidden; backface-visibility: hidden; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .6); }
+.coin__back { transform: rotateY(180deg) translateZ(6px); -webkit-backface-visibility: hidden; backface-visibility: hidden; background: radial-gradient(circle at 35% 30%, #7a8247, var(--accent-dark)); display: grid; place-items: center; box-shadow: inset 0 0 0 2px rgba(236, 230, 216, .35); }
 .coin__back img { width: 46%; height: auto; }
 .coin__edge { transform: translateZ(var(--z)); background: linear-gradient(90deg, #3d4220, #6b713f 50%, #3d4220); }
 .coin::after { content: ""; position: absolute; inset: -30%; border-radius: 50%; transform: translateZ(-40px); background: radial-gradient(circle, rgba(182, 187, 134, .35), transparent 65%); pointer-events: none; }
