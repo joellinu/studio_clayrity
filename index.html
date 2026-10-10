@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Studio Clayrity — Hand-thrown Ceramic Cups</title>
+  <meta name="description" content="Hand-thrown ceramic cups in reactive glazes: espresso and cappuccino cups, tea cups, tumblers, mugs, chawans and gift sets. Order on WhatsApp, shipped pan-India.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="announce">Free gift box on every set · Ships pan-India in breakage-safe packaging</div>
+
+  <header class="header">
+    <div class="wrap header__inner">
+      <button class="icon-btn menu-btn" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="#catalogue">Catalogue</a>
+        <a href="#sizes">Cups</a>
+        <a href="#occasions">Gifting</a>
+        <a href="#how">How to Order</a>
+        <a href="#story">Our Story</a>
+        <a href="#bulk">Bulk</a>
+      </nav>
+      <a href="#" class="brand" aria-label="Studio Clayrity, home">
+        <img class="brand__emblem" src="images/logo-emblem.png" alt="" width="40" height="40">
+        <span class="logo">Studio Clayrity</span>
+      </a>
+      <div class="header__actions">
+        <a class="icon-btn js-insta" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>
+        </a>
+        <button class="bag-btn" id="bag-open" aria-label="Open your order">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <b id="bag-count">0</b>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero: a 3D orbit of cups around the emblem -->
+    <section class="hero">
+
+      <div class="wrap hero__head">
+        <p class="eyebrow eyebrow--light">Hand-thrown ceramics · India</p>
+        <h1 class="hero__title">Studio Clayrity</h1>
+      </div>
+
+      <div class="orbit" id="orbit">
+        <div class="orbit__tilt">
+          <div class="orbit__floor" aria-hidden="true"></div>
+          <div class="orbit__ring" id="orbit-ring"></div>
+          <div class="orbit__words" id="orbit-words" aria-hidden="true"></div>
+          <div class="coin" role="img" aria-label="Studio Clayrity logo: a table lamp above the word Clayrity">
+            <div class="coin__spin" id="coin">
+              <span class="coin__edge" style="--z: -5px"></span>
+              <span class="coin__edge" style="--z: -3px"></span>
+              <span class="coin__edge" style="--z: -1px"></span>
+              <span class="coin__edge" style="--z: 1px"></span>
+              <span class="coin__edge" style="--z: 3px"></span>
+              <span class="coin__edge" style="--z: 5px"></span>
+              <img class="coin__face" src="images/logo-emblem.png" alt="">
+              <span class="coin__back"><img src="images/lamp-ivory.png" alt=""></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap hero__foot">
+        <p class="hero__sub">Cups, mugs and chawans in reactive glazes. Each piece is thrown by hand and fired in our kiln, so every glaze runs a little differently.</p>
+        <div class="hero__ctas">
+          <a href="#catalogue" class="btn btn--light">Browse the catalogue</a>
+          <a href="#story" class="btn btn--ghost">See how it's made</a>
+        </div>
+        <p class="hero__hint">Drag to turn the ring · tap a cup to shop it</p>
+      </div>
+    </section>
+
+    <!-- Promise strip -->
+    <section class="promise">
+      <div class="wrap promise__inner">
+        <div><b>Handmade</b><span>Thrown on the wheel, one at a time</span></div>
+        <div><b>Food-safe glazes</b><span>Lead-free, fired at high temperature</span></div>
+        <div><b>Order on WhatsApp</b><span>Quick replies, pay by UPI</span></div>
+        <div><b>Safe shipping</b><span>Layer-wrapped, replaced if broken</span></div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="cats wrap" aria-label="Shop by category">
+      <div class="section-head">
+        <h2>Shop by category</h2>
+        <a href="#catalogue" class="link-arrow">View full catalogue →</a>
+      </div>
+      <div class="cats__grid">
+        <a href="#catalogue" class="cat" data-filter="espresso"><span class="cat__img" data-cup="111"></span>Espresso</a>
+        <a href="#catalogue" class="cat" data-filter="cappuccino"><span class="cat__img" data-cup="121"></span>Cappuccino</a>
+        <a href="#catalogue" class="cat" data-filter="tea"><span class="cat__img" data-cup="125"></span>Tea cups</a>
+        <a href="#catalogue" class="cat" data-filter="tumbler"><span class="cat__img" data-cup="109"></span>Tumblers</a>
+        <a href="#catalogue" class="cat" data-filter="mug"><span class="cat__img" data-cup="108"></span>Mugs</a>
+        <a href="#catalogue" class="cat" data-filter="bowl"><span class="cat__img" data-cup="110"></span>Chawans</a>
+      </div>
+    </section>
+
+    <!-- New from the kiln -->
+    <section class="wall" aria-label="New from the kiln">
+      <div class="wrap section-head">
+        <h2>New from the kiln</h2>
+        <div class="wall__nav">
+          <button class="arrow" data-dir="-1" aria-label="Scroll left">←</button>
+          <button class="arrow" data-dir="1" aria-label="Scroll right">→</button>
+        </div>
+      </div>
+      <div class="wall__track" id="wall"></div>
+    </section>
+
+    <!-- Glaze names, drifting -->
+    <div class="glazes" aria-hidden="true"><div class="glazes__track" id="glazes"></div></div>
+
+    <!-- Cups by size -->
+    <section class="sizes wrap" id="sizes">
+      <div class="section-head"><h2>Cups by size</h2></div>
+      <div class="size-tiles">
+        <a href="#catalogue" data-filter="espresso" class="size-tile reveal"><span class="size-tile__img" data-cup="116"></span><span class="size-tile__ml">90–100 ml</span><span class="size-tile__name">Espresso cups</span></a>
+        <a href="#catalogue" data-filter="tea" class="size-tile reveal"><span class="size-tile__img" data-cup="106"></span><span class="size-tile__ml">160–230 ml</span><span class="size-tile__name">Tea cups</span></a>
+        <a href="#catalogue" data-filter="cappuccino" class="size-tile reveal"><span class="size-tile__img" data-cup="107"></span><span class="size-tile__ml">200–250 ml</span><span class="size-tile__name">Cappuccino cups</span></a>
+        <a href="#catalogue" data-filter="tumbler" class="size-tile reveal"><span class="size-tile__img" data-cup="102"></span><span class="size-tile__ml">280–380 ml</span><span class="size-tile__name">Tumblers</span></a>
+      </div>
+    </section>
+
+    <!-- Full-width banner -->
+    <section class="banner reveal">
+      <img src="images/scene-studio.jpg" alt="Handmade glazed mugs, cups and a bowl on a wooden studio table">
+      <div class="banner__text">
+        <p class="eyebrow eyebrow--light">From our studio</p>
+        <h2>Every glaze runs a little differently.</h2>
+        <p>Reactive glazes move and pool in the kiln, so no two pieces come out the same. Yours will be one of one.</p>
+        <a href="#catalogue" class="btn btn--light">Browse the catalogue</a>
+      </div>
+    </section>
+
+    <!-- Catalogue: every product -->
+    <section class="shop" id="catalogue">
+      <div class="wrap">
+        <div class="section-head section-head--stack">
+          <div>
+            <p class="eyebrow">The catalogue</p>
+            <h2>Every piece, in one place</h2>
+          </div>
+          <div class="toolbar">
+            <span class="toolbar__count" id="count"></span>
+            <label class="sort">Availability
+              <select id="stock">
+                <option value="all">All</option>
+                <option value="in">In stock</option>
+                <option value="out">Sold out</option>
+              </select>
+            </label>
+            <label class="sort">Sort
+              <select id="sort">
+                <option value="featured">Featured</option>
+                <option value="code">Catalogue number</option>
+                <option value="low">Price, low to high</option>
+                <option value="high">Price, high to low</option>
+                <option value="new">Newest</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="chips" id="chips" role="tablist"></div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <!-- Shop by occasion -->
+    <section class="occasions wrap" id="occasions">
+      <div class="section-head"><h2>Shop by occasion</h2></div>
+      <div class="occ-grid">
+        <a href="#catalogue" data-filter="espresso" class="occ reveal"><span class="occ__img" data-cup="111"></span><h3>Morning coffee</h3><p>Espresso &amp; cappuccino cups</p></a>
+        <a href="#catalogue" data-filter="sets" class="occ reveal"><span class="occ__img" data-cup="202"></span><h3>Gift a set</h3><p>Mixed glazes, gift boxed</p></a>
+        <a href="#catalogue" data-filter="under1000" class="occ reveal"><span class="occ__img" data-cup="125"></span><h3>Under ₹999</h3><p>Everyday pieces</p></a>
+        <a href="#bulk" class="occ reveal"><span class="occ__img"><img src="images/scene-shelf.jpg" alt="Glazed cups and mugs on a studio shelf" loading="lazy"></span><h3>Cafés &amp; studios</h3><p>Custom glazes in bulk</p></a>
+      </div>
+    </section>
+
+    <!-- How to order -->
+    <section class="how" id="how">
+      <div class="wrap">
+        <div class="section-head"><h2>How ordering works</h2></div>
+        <ol class="steps">
+          <li class="reveal"><span class="step__n">01</span><h3>Add to your bag</h3><p>Choose your cups and how many of each.</p></li>
+          <li class="reveal"><span class="step__n">02</span><h3>Send on WhatsApp</h3><p>Your order list, with catalogue numbers, reaches us in one message. No account needed.</p></li>
+          <li class="reveal"><span class="step__n">03</span><h3>Confirm &amp; pay</h3><p>We confirm stock and shipping, you pay by UPI, and we pack it carefully and ship.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Story: the making of a cup, told as you scroll -->
+    <section class="story" id="story">
+      <div class="wrap story__intro">
+        <p class="eyebrow">Our story</p>
+        <h2>From a lump of clay to your morning cup.</h2>
+        <p>Every Studio Clayrity piece takes five steps and about ten days to make. Scroll to follow one cup from the wheel to the kiln.</p>
+      </div>
+
+      <div class="process" style="--steps: 5">
+        <div class="process__sticky">
+          <div class="wrap process__inner">
+            <div class="process__media" aria-hidden="true">
+              <figure class="process__img"><img src="images/hands-wheel.jpg" alt=""></figure>
+              <figure class="process__img"><img src="images/cup-102.jpg" alt=""></figure>
+              <figure class="process__img"><img src="images/scene-shelf.jpg" alt=""></figure>
+              <figure class="process__img"><img src="images/cup-123.jpg" alt=""></figure>
+              <figure class="process__img"><img src="images/cup-110.jpg" alt=""></figure>
+              <img class="process__mark" src="images/lamp-ivory.png" alt="">
+            </div>
+            <div class="process__text">
+              <ol class="process__steps">
+                <li class="process__step">
+                  <span class="process__no">01</span>
+                  <h3>Centre the clay</h3>
+                  <p>Local stoneware is wedged by hand to push out air, then centred on the wheel until it spins perfectly true.</p>
+                  <span class="process__when">Day 1</span>
+                </li>
+                <li class="process__step">
+                  <span class="process__no">02</span>
+                  <h3>Throw the form</h3>
+                  <p>The walls are pulled up in three or four passes. The rings you feel on a tumbler are the potter's fingertips.</p>
+                  <span class="process__when">Day 1</span>
+                </li>
+                <li class="process__step">
+                  <span class="process__no">03</span>
+                  <h3>Dry and trim</h3>
+                  <p>Cups rest on wooden shelves until leather-hard, then go back on the wheel upside down to carve a clean foot.</p>
+                  <span class="process__when">Days 2–5</span>
+                </li>
+                <li class="process__step">
+                  <span class="process__no">04</span>
+                  <h3>Dip in glaze</h3>
+                  <p>Each piece is dipped in two or three glazes. Where they overlap, they will run, pool and break in the heat.</p>
+                  <span class="process__when">Day 7</span>
+                </li>
+                <li class="process__step">
+                  <span class="process__no">05</span>
+                  <h3>Fire the kiln</h3>
+                  <p>A slow climb to about 1,240°C, then two days of cooling. Opening the kiln is the moment every glaze reveals itself.</p>
+                  <span class="process__when">Days 8–10</span>
+                </li>
+              </ol>
+              <div class="process__meter" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <p class="note">Replace this story with the seller's own process and photos of their hands at the wheel.</p>
+        <dl class="care">
+          <div><dt>Food-safe</dt><dd>Lead-free glazes, high-fired for everyday use with hot drinks.</dd></div>
+          <div><dt>Gentle care</dt><dd>Hand-wash recommended to keep the glaze bright for years.</dd></div>
+          <div><dt>Safe shipping</dt><dd>Every cup is layer-wrapped and boxed. If anything arrives broken, we replace it.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Instagram -->
+    <section class="insta" id="instagram">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Follow along</p>
+            <h2><a class="js-insta js-insta-handle" href="#" target="_blank" rel="noopener">@studio_clayrity</a></h2>
+          </div>
+          <a class="link-arrow js-insta" href="#" target="_blank" rel="noopener">Follow on Instagram →</a>
+        </div>
+        <!-- Reels: add links in the REELS list in script.js -->
+        <div class="reels" id="reels" aria-label="Reels from the studio"></div>
+      </div>
+    </section>
+
+    <!-- Bulk / custom enquiry -->
+    <section class="bulk" id="bulk">
+      <div class="wrap bulk__inner">
+        <div>
+          <p class="eyebrow eyebrow--light">Bulk &amp; custom orders</p>
+          <h2>For cafés, studios &amp; corporate gifting</h2>
+          <p>Cups in your own glaze colour, logo stamps on the foot, and sets for weddings and teams. Tell us what you need and we'll reply on WhatsApp.</p>
+        </div>
+        <form class="form" id="bulk-form">
+          <input name="name" placeholder="Your name" required>
+          <select name="type">
+            <option>Café / restaurant</option>
+            <option>Corporate gifting</option>
+            <option>Wedding / return gifts</option>
+            <option>Custom glaze or piece</option>
+          </select>
+          <input name="qty" type="number" min="1" placeholder="Approximate quantity">
+          <textarea name="msg" rows="3" placeholder="What are you looking for?"></textarea>
+          <button type="submit" class="btn btn--light">Send enquiry on WhatsApp</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <img src="images/logo-emblem.png" alt="" width="64" height="64">
+        <div>
+          <a href="#" class="logo">Studio Clayrity</a>
+          <p>Hand-thrown cups for everyday rituals.</p>
+        </div>
+      </div>
+      <div><h4>Shop</h4><a href="#catalogue">Catalogue</a><a href="#sizes">Cups by size</a><a href="#occasions">Gift pairs</a><a href="#bulk">Bulk orders</a></div>
+      <div><h4>Help</h4><a href="#how">How to order</a><a href="#story">Care guide</a><a href="#" class="js-wa">Chat with us</a></div>
+      <div><h4>Follow</h4><a href="#" class="js-insta" target="_blank" rel="noopener">Instagram</a><a href="#" class="js-wa">WhatsApp</a></div>
+    </div>
+    <div class="footer__mark" aria-hidden="true">Studio Clayrity</div>
+    <p class="wrap footer__copy">© 2026 Studio Clayrity · <a href="credits.html">Photo credits</a></p>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a class="wa-float js-wa" href="#" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.4z"/></svg>
+  </a>
+
+  <!-- Order bag (checkout via WhatsApp) -->
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="Your order" aria-hidden="true">
+    <div class="drawer__head">
+      <h3>Your bag</h3>
+      <button class="icon-btn" id="bag-close" aria-label="Close">✕</button>
+    </div>
+    <div class="drawer__body" id="bag-items"></div>
+    <form class="drawer__foot" id="order-form">
+      <div class="drawer__total"><span>Subtotal</span><b id="bag-total">₹0</b></div>
+      <p class="drawer__note">Shipping is confirmed on WhatsApp. Payment by UPI after confirmation.</p>
+      <input name="name" placeholder="Your name" required>
+      <input name="city" placeholder="City & pincode" required>
+      <input name="note" placeholder="Note: gift box, glaze preferences (optional)">
+      <button type="submit" class="btn btn--wa btn--block" id="send-order">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.4z"/></svg>
+        Send order on WhatsApp
+      </button>
+    </form>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="vendor/motion.js"></script>
+  <script src="script.js"></script>
+  <script src="fx.js"></script>
+</body>
+</html>
