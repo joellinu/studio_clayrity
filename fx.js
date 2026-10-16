@@ -322,7 +322,7 @@
   onScrollFrame();
 
   // ---------- Reveals: sections rise in; headings arrive word by word ----------
-  const headings = $$(".section-head h2, .banner h2, .story__intro h2, .bulk h2").filter((h) => !h.children.length);
+  const headings = $$(".section-head h2, .banner h2, .story__intro h2, .bulk h2, .lamps__head h2").filter((h) => !h.children.length);
   const headingWords = new Map(headings.map((h) => [h, split(h)]));
   headingWords.forEach((words) => words.forEach((w) => (w.style.transform = "translateY(110%)")));
   headingWords.forEach((words, h) => {
@@ -343,6 +343,14 @@
     }, { margin: "0px 0px -8% 0px" });
   });
 
+  // ---------- Lamps: each one switches on (with a flicker) as it comes into view ----------
+  const lampCards = $$("#lamp-grid .card");
+  lampCards.forEach((c, i) => {
+    const stop = inView(c, () => {
+      stop();
+      introDone.then(() => setTimeout(() => c.classList.add("is-lit"), 250 + (i % 3) * 260));
+    }, { margin: "0px 0px -15% 0px" });
+  });
   // ---------- Promise strip: the icons draw themselves in, one after another ----------
   const promiseItems = $$(".promise__item");
   if (promiseItems.length) {

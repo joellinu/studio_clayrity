@@ -10,7 +10,7 @@ const SHOP = {
 // ============================================================
 //  PRODUCTS: edit names, prices and photos here.
 //  img: photo file in /images (cups are cup-<id>.jpg, so a new photo can simply replace the old file)
-//  type: espresso | cappuccino | tea | tumbler | mug | bowl | sets
+//  type: espresso | cappuccino | tea | tumbler | mug | bowl | lamp | sets
 //  badge (optional): Bestseller | New
 //  no (optional): piece number for one-of-a-kind pieces, e.g. 7 → "No. 07"
 //  soldOut (optional): true to show "Sold out" and turn the button into a restock request
@@ -40,6 +40,12 @@ const PRODUCTS = [
   { id: 125, name: "Celadon pebble cup, 230 ml",     type: "tea",        price: 900,  glaze: "Celadon Pebble",  size: "Speckled stoneware", img: "cup-125.jpg" },
   { id: 201, name: "Stone collection, set of 6",     type: "sets",       price: 5900, size: "Six glazes, gift boxed", img: "scene-stone.jpg" },
   { id: 202, name: "Yunomi set of 7",                type: "sets",       price: 5600, size: "Seven glazes, gift boxed", img: "scene-table.jpg" },
+  { id: 301, name: "Pebble lantern",                 type: "lamp",       price: 1450, glaze: "Raw terracotta",  size: "Holds a pillar candle",  img: "lamp-pebble-lantern.jpg", badge: "New" },
+  { id: 302, name: "Drip glaze bulb lamp",           type: "lamp",       price: 3200, glaze: "Speckled cream",  size: "Brass holder, globe bulb", img: "lamp-drip-bulb.jpg" },
+  { id: 303, name: "Sea urchin lamp",                type: "lamp",       price: 3800, glaze: "Bisque white",    size: "Hand-pierced, 22 cm",    img: "lamp-urchin.jpg", badge: "Bestseller" },
+  { id: 304, name: "Hive lamp",                      type: "lamp",       price: 4500, glaze: "Unglazed stoneware", size: "On a brick base",     img: "lamp-hive.jpg" },
+  { id: 305, name: "Coral tower lamp",               type: "lamp",       price: 5200, glaze: "Ash white",       size: "One of a kind",          img: "lamp-coral.jpg", no: 3 },
+  { id: 306, name: "Gourd night lamp",               type: "lamp",       price: 2400, glaze: "Smoked black",    size: "Pierced spiral, 26 cm",  img: "lamp-gourd.jpg", badge: "New" },
 ];
 
 const FILTERS = [
@@ -50,6 +56,7 @@ const FILTERS = [
   { key: "tumbler",    label: "Tumblers" },
   { key: "mug",        label: "Mugs" },
   { key: "bowl",       label: "Chawans" },
+  { key: "lamp",       label: "Lamps" },
   { key: "sets",       label: "Sets" },
   { key: "under1000",  label: "Under ₹999" },
 ];
@@ -66,7 +73,7 @@ const waLink = (text) => `https://wa.me/${SHOP.whatsapp}?text=${encodeURICompone
 const pieceNo = (p) => (p.no ? `No. ${String(p.no).padStart(2, "0")} ` : "");
 const fullName = (p) => `${pieceNo(p)}${p.name}${p.glaze ? ` – ${p.glaze}` : ""}`;
 const details = (p) => [p.glaze && `${p.glaze} glaze`, p.size].filter(Boolean).join(" · ");
-const isSingle = (p) => p.type !== "sets";
+const isSingle = (p) => p.type !== "sets" && p.type !== "lamp";
 const WA_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.4z"/></svg>`;
 
 const media = (p) => `<img src="images/${p.img}" alt="${fullName(p)}" loading="lazy">`;
@@ -80,7 +87,7 @@ document.querySelectorAll(".js-insta").forEach((a) => (a.href = `https://instagr
 document.querySelectorAll(".js-insta-handle").forEach((a) => (a.textContent = "@" + SHOP.instagram));
 
 // ---------- Hero orbit: a ring of cups and a ring of words around the emblem ----------
-const orbitCups = PRODUCTS.filter((p) => p.type !== "sets" && !p.soldOut).slice(0, 12);
+const orbitCups = PRODUCTS.filter((p) => !["sets", "lamp"].includes(p.type) && !p.soldOut).slice(0, 12);
 const orbitRing = document.getElementById("orbit-ring");
 if (orbitRing) {
   orbitRing.style.setProperty("--step", `${360 / orbitCups.length}deg`);
@@ -136,6 +143,18 @@ document.getElementById("wall").innerHTML = PRODUCTS
   .sort((a, b) => (b.badge === "New") - (a.badge === "New"))
   .map((p) => card(p)).join("");
 
+// ---------- Lamps: their own after-dark section, with a light switch ----------
+const lampGrid = document.getElementById("lamp-grid");
+if (lampGrid) {
+  lampGrid.innerHTML = PRODUCTS.filter((p) => p.type === "lamp").map((p) => card(p)).join("");
+  const lampSection = document.getElementById("lamps");
+  const lightSwitch = document.getElementById("light-switch");
+  lightSwitch.addEventListener("click", () => {
+    const off = lampSection.classList.toggle("lamps--off");
+    lightSwitch.setAttribute("aria-pressed", String(!off));
+    lightSwitch.querySelector(".switch__label").textContent = off ? "Lights off" : "Lights on";
+  });
+}
 // ---------- Catalogue: every product, with filters ----------
 let activeFilter = "all";
 const grid = document.getElementById("grid");
