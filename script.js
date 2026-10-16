@@ -100,19 +100,33 @@ document.querySelectorAll(".js-wa").forEach((a) => {
 document.querySelectorAll(".js-insta").forEach((a) => (a.href = `https://instagram.com/${SHOP.instagram}`));
 document.querySelectorAll(".js-insta-handle").forEach((a) => (a.textContent = "@" + SHOP.instagram));
 
-// ---------- Hero orbit: a ring of cups and a ring of words around the emblem ----------
-const orbitCups = PRODUCTS.filter((p) => isCup(p) && !p.soldOut).slice(0, 12);
+// ---------- Hero orbit: a ring of pieces from every collection, and a ring of words, around the emblem ----------
+// Where each collection's pieces lead when tapped, and the small tag shown on the card
+const ORBIT_COLLECTIONS = {
+  cup:   { tag: "Cups",       href: (p) => `shop.html?cat=${p.type}`, pick: (p) => isCup(p) },
+  lamp:  { tag: "Lamps",      href: () => "lamps.html",               pick: (p) => p.type === "lamp" },
+  decor: { tag: "Home decor", href: () => "decor.html",               pick: (p) => p.type === "decor" },
+  sets:  { tag: "Gift sets",  href: () => "gifting.html#sets",        pick: (p) => p.type === "sets" },
+};
+// 12 places around the ring, so the collections alternate as it turns
+const ORBIT_PATTERN = ["cup", "lamp", "decor", "cup", "lamp", "decor", "cup", "sets", "cup", "lamp", "decor", "cup"];
+const orbitPools = Object.fromEntries(Object.entries(ORBIT_COLLECTIONS).map(([k, c]) => [k,
+  PRODUCTS.filter((p) => c.pick(p) && !p.soldOut).sort((a, b) => !!b.badge - !!a.badge)]));
+const orbitItems = ORBIT_PATTERN.map((k) => ({ key: k, p: orbitPools[k].shift() })).filter((o) => o.p);
 const orbitRing = document.getElementById("orbit-ring");
 if (orbitRing) {
-  orbitRing.style.setProperty("--step", `${360 / orbitCups.length}deg`);
-  orbitRing.innerHTML = orbitCups.map((p, i) => `
-    <a class="orb" style="--i: ${i}" href="shop.html?cat=${p.type}" aria-label="${p.name}: see all ${p.type === "bowl" ? "chawans" : p.type + "s"}">
-      <span class="orb__in"><img src="images/${p.img}" alt="" loading="eager"></span>
-    </a>`).join("");
+  orbitRing.style.setProperty("--step", `${360 / orbitItems.length}deg`);
+  orbitRing.innerHTML = orbitItems.map(({ key, p }, i) => {
+    const c = ORBIT_COLLECTIONS[key];
+    return `
+    <a class="orb" style="--i: ${i}" href="${c.href(p)}" aria-label="${p.name} (${c.tag})">
+      <span class="orb__in"><img src="images/${p.img}" alt="" loading="eager"><span class="orb__tag">${c.tag}</span></span>
+    </a>`;
+  }).join("");
 }
 const orbitWords = document.getElementById("orbit-words");
 if (orbitWords) {
-  const phrase = [..."Hand-thrown · reactive glazes · fired in our kiln · "];
+  const phrase = [..."Cups · lamps · home decor · gifts · made by hand · "];
   orbitWords.style.setProperty("--step", `${360 / phrase.length}deg`);
   orbitWords.innerHTML = phrase.map((ch, i) => `<span style="--i: ${i}">${ch === " " ? "&nbsp;" : ch}</span>`).join("");
 }
