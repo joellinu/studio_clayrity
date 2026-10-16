@@ -1,0 +1,123 @@
+<!-- page: {"title":"Studio Clayrity — Hand-thrown Ceramics","description":"Hand-thrown ceramic cups, lamps and home decor in reactive glazes. Order on WhatsApp, shipped pan-India.","nav":"home"} -->
+    <!-- Hero: a 3D orbit of cups around the emblem -->
+    <section class="hero">
+
+      <div class="wrap hero__head">
+        <p class="eyebrow eyebrow--light">Hand-thrown ceramics · India</p>
+        <h1 class="hero__title">Studio Clayrity</h1>
+      </div>
+
+      <div class="orbit" id="orbit">
+        <div class="orbit__tilt">
+          <div class="orbit__floor" aria-hidden="true"></div>
+          <div class="orbit__ring" id="orbit-ring"></div>
+          <div class="orbit__words" id="orbit-words" aria-hidden="true"></div>
+          <div class="coin" role="img" aria-label="Studio Clayrity logo: a table lamp above the word Clayrity">
+            <div class="coin__spin" id="coin">
+              <span class="coin__edge" style="--z: -5px"></span>
+              <span class="coin__edge" style="--z: -3px"></span>
+              <span class="coin__edge" style="--z: -1px"></span>
+              <span class="coin__edge" style="--z: 1px"></span>
+              <span class="coin__edge" style="--z: 3px"></span>
+              <span class="coin__edge" style="--z: 5px"></span>
+              <img class="coin__face" src="images/logo-emblem.png" alt="">
+              <span class="coin__back"><img src="images/lamp-ivory.png" alt=""></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap hero__foot">
+        <p class="hero__sub">Cups, mugs and chawans in reactive glazes. Each piece is thrown by hand and fired in our kiln, so every glaze runs a little differently.</p>
+        <div class="hero__ctas">
+          <a href="shop.html" class="btn btn--light">Browse the catalogue</a>
+          <a href="story.html" class="btn btn--ghost">See how it's made</a>
+        </div>
+        <p class="hero__hint">Drag to turn the ring · tap a cup to shop it</p>
+      </div>
+    </section>
+
+    <!-- Promise strip -->
+    <section class="promise">
+      <div class="wrap promise__inner">
+        <div class="promise__item">
+          <span class="promise__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path pathLength="1" d="M9.5 4h5M10.5 4c0 2.5-4 4.2-4 8.6a5.5 5.5 0 0 0 11 0c0-4.4-4-6.1-4-8.6"/><path pathLength="1" d="M3.5 20.5h17M7 20.5c.6-1.2 2.6-2 5-2s4.4.8 5 2"/></svg>
+          </span>
+          <span class="promise__text"><b>Handmade</b><span>Thrown on the wheel, one by one</span></span>
+        </div>
+        <div class="promise__item">
+          <span class="promise__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path pathLength="1" d="M4.5 8h11v4.5a5.5 5.5 0 0 1-11 0z"/><path pathLength="1" d="M15.5 9.5h1.3a2.4 2.4 0 0 1 0 4.8h-1.6"/><path pathLength="1" d="M7.6 12.4l1.8 1.8 3.2-3.6"/><path pathLength="1" d="M8 4.5c0-1 1-1 1-2M11 4.5c0-1 1-1 1-2"/></svg>
+          </span>
+          <span class="promise__text"><b>Food-safe glazes</b><span>Lead-free and high-fired</span></span>
+        </div>
+        <div class="promise__item">
+          <span class="promise__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path pathLength="1" d="M20 11.6a8 8 0 0 1-11.6 7.1L4 20l1.3-4.2A8 8 0 1 1 20 11.6z"/><path pathLength="1" d="M8.6 11.8h.01M12 11.8h.01M15.4 11.8h.01"/></svg>
+          </span>
+          <span class="promise__text"><b>Order on WhatsApp</b><span>Quick replies, pay by UPI</span></span>
+        </div>
+        <div class="promise__item">
+          <span class="promise__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path pathLength="1" d="M3.5 7.6 12 3.2l8.5 4.4v8.8L12 20.8l-8.5-4.4z"/><path pathLength="1" d="M3.5 7.6 12 12l8.5-4.4M12 12v8.8"/><path pathLength="1" d="M7.7 5.4l8.5 4.4"/></svg>
+          </span>
+          <span class="promise__text"><b>Safe shipping</b><span>Replaced free if it breaks</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Explore the studio: the four collections -->
+    <section class="explore wrap" aria-label="Explore the studio">
+      <div class="section-head">
+        <h2>Explore the studio</h2>
+        <a href="shop.html" class="link-arrow">Shop everything →</a>
+      </div>
+      {{explore}}
+    </section>
+
+    <!-- Bestsellers and new pieces from every collection -->
+    <section class="wall" aria-label="Bestsellers and new">
+      <div class="wrap section-head">
+        <h2>Bestsellers &amp; new</h2>
+        <div class="wall__nav">
+          <button class="arrow" data-dir="-1" aria-label="Scroll left">←</button>
+          <button class="arrow" data-dir="1" aria-label="Scroll right">→</button>
+        </div>
+      </div>
+      <div class="wall__track" id="wall"></div>
+    </section>
+
+    <!-- Full-width banner -->
+    <section class="banner reveal">
+      <img src="images/scene-studio.jpg" alt="Handmade glazed mugs, cups and a bowl on a wooden studio table">
+      <div class="banner__text">
+        <p class="eyebrow eyebrow--light">From our studio</p>
+        <h2>Every glaze runs a little differently.</h2>
+        <p>Reactive glazes move and pool in the kiln, so no two pieces come out the same. Yours will be one of one.</p>
+        <a href="story.html" class="btn btn--light">Read our story</a>
+      </div>
+    </section>
+
+    <!-- How to order -->
+    <section class="how" id="how">
+      <div class="wrap">
+        <div class="section-head"><h2>How ordering works</h2></div>
+        <ol class="steps">
+          <li class="reveal"><span class="step__n">01</span><h3>Add to your bag</h3><p>Choose your cups and how many of each.</p></li>
+          <li class="reveal"><span class="step__n">02</span><h3>Send on WhatsApp</h3><p>Your order list, with catalogue numbers, reaches us in one message. No account needed.</p></li>
+          <li class="reveal"><span class="step__n">03</span><h3>Confirm &amp; pay</h3><p>We confirm stock and shipping, you pay by UPI, and we pack it carefully and ship.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Bulk and custom orders, in one line -->
+    <section class="cta-strip">
+      <div class="wrap cta-strip__inner">
+        <div>
+          <p class="eyebrow eyebrow--light">Bulk &amp; custom orders</p>
+          <h2>Cups for your café, studio or wedding</h2>
+        </div>
+        <a href="gifting.html#bulk" class="btn btn--light">Enquire about bulk orders</a>
+      </div>
+    </section>

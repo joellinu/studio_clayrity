@@ -1,0 +1,49 @@
+<!-- page: {"title":"Gifting & Bulk Orders — Studio Clayrity","description":"Gift sets, gifts for every occasion, and bulk or custom orders for cafés, studios and weddings.","nav":"gifting"} -->
+    <section class="page-head wrap">
+      <p class="eyebrow">Gifting & bulk</p>
+      <h1>Gifts made by hand</h1>
+      <p class="page-head__lead">Boxed sets, pieces for every occasion, and custom orders for cafés, studios, weddings and teams.</p>
+    </section>
+
+    <!-- Shop by occasion -->
+    <section class="occasions wrap" id="occasions">
+      <div class="section-head"><h2>Shop by occasion</h2></div>
+      <div class="occ-grid">
+        <a href="shop.html?cat=espresso" class="occ reveal"><span class="occ__img" data-cup="111"></span><h3>Morning coffee</h3><p>Espresso &amp; cappuccino cups</p></a>
+        <a href="#sets" class="occ reveal"><span class="occ__img" data-cup="202"></span><h3>Gift a set</h3><p>Mixed glazes, gift boxed</p></a>
+        <a href="shop.html?cat=under1000" class="occ reveal"><span class="occ__img" data-cup="125"></span><h3>Under ₹999</h3><p>Everyday pieces</p></a>
+        <a href="#bulk" class="occ reveal"><span class="occ__img"><img src="images/scene-shelf.jpg" alt="Glazed cups and mugs on a studio shelf" loading="lazy"></span><h3>Cafés &amp; studios</h3><p>Custom glazes in bulk</p></a>
+      </div>
+    </section>
+
+    <!-- Gift sets -->
+    <section class="sets wrap" id="sets">
+      <div class="section-head">
+        <h2>Gift sets</h2>
+        <a href="shop.html?cat=under1000" class="link-arrow">Gifts under ₹999 →</a>
+      </div>
+      <div class="sets__grid" id="sets-grid"></div>
+    </section>
+
+    <!-- Bulk / custom enquiry -->
+    <section class="bulk" id="bulk">
+      <div class="wrap bulk__inner">
+        <div>
+          <p class="eyebrow eyebrow--light">Bulk &amp; custom orders</p>
+          <h2>For cafés, studios &amp; corporate gifting</h2>
+          <p>Cups in your own glaze colour, logo stamps on the foot, and sets for weddings and teams. Tell us what you need and we'll reply on WhatsApp.</p>
+        </div>
+        <form class="form" id="bulk-form">
+          <input name="name" placeholder="Your name" required>
+          <select name="type">
+            <option>Café / restaurant</option>
+            <option>Corporate gifting</option>
+            <option>Wedding / return gifts</option>
+            <option>Custom glaze or piece</option>
+          </select>
+          <input name="qty" type="number" min="1" placeholder="Approximate quantity">
+          <textarea name="msg" rows="3" placeholder="What are you looking for?"></textarea>
+          <button type="submit" class="btn btn--light">Send enquiry on WhatsApp</button>
+        </form>
+      </div>
+    </section>

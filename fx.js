@@ -18,8 +18,8 @@
   const easeInOut = [0.65, 0, 0.35, 1];
   const softSpring = { type: "spring", stiffness: 110, damping: 20, mass: 0.9 };
   const snappySpring = { type: "spring", stiffness: 260, damping: 22 };
-  const $ = (s, el = document) => el.querySelector(s);
-  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const $ = (s, el = document) => (el ? el.querySelector(s) : null);
+  const $$ = (s, el = document) => (el ? [...el.querySelectorAll(s)] : []);
   const clamp01 = (v) => Math.max(0, Math.min(1, v));
   const circle = (r, x = 50, y = 50) => `circle(${r}% at ${x}% ${y}%)`;
   const rand = (lo, hi) => lo + Math.random() * (hi - lo);
@@ -118,7 +118,10 @@
   }
 
   // ---------- Hero: a 3D orbit. The coin spins, the ring of cups turns, drag to spin it ----------
+  // (home page only; onScrollFrame calls heroScroll when it exists)
+  let heroScroll = null;
   const hero = $(".hero");
+  if (hero) {
   const orbit = $("#orbit");
   const tiltEl = $(".orbit__tilt");
   const ringEl = $("#orbit-ring");
@@ -226,6 +229,15 @@
       });
     });
   }
+  // The hero's scroll response: the orbit sinks back (in orbitFrame); text lifts and fades
+  heroScroll = (y) => {
+    heroP = clamp01(y / (hero.offsetTop + hero.offsetHeight));
+    heroHead.style.transform = `translateY(${(-60 * heroP).toFixed(1)}px)`;
+    heroHead.style.opacity = (1 - 1.3 * heroP).toFixed(3);
+    heroFoot.style.opacity = (1 - 1.6 * heroP).toFixed(3);
+  };
+  } // end of hero block
+
   // ---------- Header logo: emblem spins in, letters flip into place; hover rolls a 3D wave ----------
   const logo = $(".header .logo");
   const brandEmblem = $(".header .brand__emblem");
@@ -298,11 +310,7 @@
 
   function onScrollFrame() {
     const y = scrollY;
-    // Hero: the orbit sinks back into the distance (see orbitFrame); text lifts and fades
-    heroP = clamp01(y / (hero.offsetTop + hero.offsetHeight));
-    heroHead.style.transform = `translateY(${(-60 * heroP).toFixed(1)}px)`;
-    heroHead.style.opacity = (1 - 1.3 * heroP).toFixed(3);
-    heroFoot.style.opacity = (1 - 1.6 * heroP).toFixed(3);
+    if (heroScroll) heroScroll(y);
     if (process) drawProcess();
     // Home decor: the gallery columns drift at different speeds (wide screens only)
     const wall = document.getElementById("decor-wall");
@@ -332,7 +340,7 @@
   onScrollFrame();
 
   // ---------- Reveals: sections rise in; headings arrive word by word ----------
-  const headings = $$(".section-head h2, .banner h2, .story__intro h2, .bulk h2, .lamps__head h2, .decor__head h2").filter((h) => !h.children.length);
+  const headings = $$(".section-head h2, .banner h2, .story__intro h2, .bulk h2, .lamps__head h2, .decor__head h2, .page-head h1, .cta-strip h2").filter((h) => !h.children.length);
   const headingWords = new Map(headings.map((h) => [h, split(h)]));
   headingWords.forEach((words) => words.forEach((w) => (w.style.transform = "translateY(110%)")));
   headingWords.forEach((words, h) => {

@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Studio Clayrity — Hand-thrown Ceramic Cups</title>
-  <meta name="description" content="Hand-thrown ceramic cups in reactive glazes: espresso and cappuccino cups, tea cups, tumblers, mugs, chawans and gift sets. Order on WhatsApp, shipped pan-India.">
+  <title>Studio Clayrity — Hand-thrown Ceramics</title>
+  <meta name="description" content="Hand-thrown ceramic cups, lamps and home decor in reactive glazes. Order on WhatsApp, shipped pan-India.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="page-home">
 
   <div class="announce">Free gift box on every set · Ships pan-India in breakage-safe packaging</div>
 
@@ -21,14 +21,13 @@
         <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
       <nav class="nav" id="nav">
-        <a href="#catalogue">Catalogue</a>
-        <a href="#lamps">Lamps</a>
-        <a href="#decor">Home Decor</a>
-        <a href="#occasions">Gifting</a>
-        <a href="#story">Our Story</a>
-        <a href="#bulk">Bulk</a>
+        <a href="shop.html">Shop</a>
+        <a href="lamps.html">Lamps</a>
+        <a href="decor.html">Home Decor</a>
+        <a href="gifting.html">Gifting &amp; Bulk</a>
+        <a href="story.html">Our Story</a>
       </nav>
-      <a href="#" class="brand" aria-label="Studio Clayrity, home">
+      <a href="index.html" class="brand" aria-label="Studio Clayrity, home">
         <img class="brand__emblem" src="images/logo-emblem.png" alt="" width="40" height="40">
         <span class="logo">Studio Clayrity</span>
       </a>
@@ -76,8 +75,8 @@
       <div class="wrap hero__foot">
         <p class="hero__sub">Cups, mugs and chawans in reactive glazes. Each piece is thrown by hand and fired in our kiln, so every glaze runs a little differently.</p>
         <div class="hero__ctas">
-          <a href="#catalogue" class="btn btn--light">Browse the catalogue</a>
-          <a href="#story" class="btn btn--ghost">See how it's made</a>
+          <a href="shop.html" class="btn btn--light">Browse the catalogue</a>
+          <a href="story.html" class="btn btn--ghost">See how it's made</a>
         </div>
         <p class="hero__hint">Drag to turn the ring · tap a cup to shop it</p>
       </div>
@@ -113,46 +112,46 @@
       </div>
     </section>
 
-    <!-- Categories -->
-    <section class="cats wrap" aria-label="Shop by category">
+    <!-- Explore the studio: the four collections -->
+    <section class="explore wrap" aria-label="Explore the studio">
       <div class="section-head">
-        <h2>Shop by category</h2>
-        <a href="#catalogue" class="link-arrow">View full catalogue →</a>
+        <h2>Explore the studio</h2>
+        <a href="shop.html" class="link-arrow">Shop everything →</a>
       </div>
-      <div class="cats__grid">
-        <a href="#catalogue" class="cat" data-filter="espresso"><span class="cat__img" data-cup="111"></span>Espresso</a>
-        <a href="#catalogue" class="cat" data-filter="cappuccino"><span class="cat__img" data-cup="121"></span>Cappuccino</a>
-        <a href="#catalogue" class="cat" data-filter="tea"><span class="cat__img" data-cup="125"></span>Tea cups</a>
-        <a href="#catalogue" class="cat" data-filter="tumbler"><span class="cat__img" data-cup="109"></span>Tumblers</a>
-        <a href="#catalogue" class="cat" data-filter="mug"><span class="cat__img" data-cup="108"></span>Mugs</a>
-        <a href="#catalogue" class="cat" data-filter="bowl"><span class="cat__img" data-cup="110"></span>Chawans</a>
+      <div class="explore__grid">
+        <a class="explore__tile" href="shop.html?cat=cups">
+          <span class="explore__img"><img src="images/scene-studio.jpg" alt="" loading="lazy"></span>
+          <span class="explore__text"><span class="explore__title">Cups &amp; mugs</span><span class="explore__count" data-count="cups"></span></span>
+          <span class="explore__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="explore__tile" href="lamps.html">
+          <span class="explore__img"><img src="images/lamp-coral.jpg" alt="" loading="lazy"></span>
+          <span class="explore__text"><span class="explore__title">Lamps</span><span class="explore__count" data-count="lamp"></span></span>
+          <span class="explore__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="explore__tile" href="decor.html">
+          <span class="explore__img"><img src="images/decor-wall-pockets.jpg" alt="" loading="lazy"></span>
+          <span class="explore__text"><span class="explore__title">Home decor</span><span class="explore__count" data-count="decor"></span></span>
+          <span class="explore__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="explore__tile" href="gifting.html">
+          <span class="explore__img"><img src="images/scene-table.jpg" alt="" loading="lazy"></span>
+          <span class="explore__text"><span class="explore__title">Gifts &amp; sets</span><span class="explore__count" data-count="sets"></span></span>
+          <span class="explore__arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </section>
 
-    <!-- New from the kiln -->
-    <section class="wall" aria-label="New from the kiln">
+    <!-- Bestsellers and new pieces from every collection -->
+    <section class="wall" aria-label="Bestsellers and new">
       <div class="wrap section-head">
-        <h2>New from the kiln</h2>
+        <h2>Bestsellers &amp; new</h2>
         <div class="wall__nav">
           <button class="arrow" data-dir="-1" aria-label="Scroll left">←</button>
           <button class="arrow" data-dir="1" aria-label="Scroll right">→</button>
         </div>
       </div>
       <div class="wall__track" id="wall"></div>
-    </section>
-
-    <!-- Glaze names, drifting -->
-    <div class="glazes" aria-hidden="true"><div class="glazes__track" id="glazes"></div></div>
-
-    <!-- Cups by size -->
-    <section class="sizes wrap" id="sizes">
-      <div class="section-head"><h2>Cups by size</h2></div>
-      <div class="size-tiles">
-        <a href="#catalogue" data-filter="espresso" class="size-tile reveal"><span class="size-tile__img" data-cup="116"></span><span class="size-tile__ml">90–100 ml</span><span class="size-tile__name">Espresso cups</span></a>
-        <a href="#catalogue" data-filter="tea" class="size-tile reveal"><span class="size-tile__img" data-cup="106"></span><span class="size-tile__ml">160–230 ml</span><span class="size-tile__name">Tea cups</span></a>
-        <a href="#catalogue" data-filter="cappuccino" class="size-tile reveal"><span class="size-tile__img" data-cup="107"></span><span class="size-tile__ml">200–250 ml</span><span class="size-tile__name">Cappuccino cups</span></a>
-        <a href="#catalogue" data-filter="tumbler" class="size-tile reveal"><span class="size-tile__img" data-cup="102"></span><span class="size-tile__ml">280–380 ml</span><span class="size-tile__name">Tumblers</span></a>
-      </div>
     </section>
 
     <!-- Full-width banner -->
@@ -162,79 +161,7 @@
         <p class="eyebrow eyebrow--light">From our studio</p>
         <h2>Every glaze runs a little differently.</h2>
         <p>Reactive glazes move and pool in the kiln, so no two pieces come out the same. Yours will be one of one.</p>
-        <a href="#catalogue" class="btn btn--light">Browse the catalogue</a>
-      </div>
-    </section>
-
-    <!-- Catalogue: every product -->
-    <section class="shop" id="catalogue">
-      <div class="wrap">
-        <div class="section-head section-head--stack">
-          <div>
-            <p class="eyebrow">The catalogue</p>
-            <h2>Every piece, in one place</h2>
-          </div>
-          <div class="toolbar">
-            <span class="toolbar__count" id="count"></span>
-            <label class="sort">Availability
-              <select id="stock">
-                <option value="all">All</option>
-                <option value="in">In stock</option>
-                <option value="out">Sold out</option>
-              </select>
-            </label>
-            <label class="sort">Sort
-              <select id="sort">
-                <option value="featured">Featured</option>
-                <option value="code">Catalogue number</option>
-                <option value="low">Price, low to high</option>
-                <option value="high">Price, high to low</option>
-                <option value="new">Newest</option>
-              </select>
-            </label>
-          </div>
-        </div>
-        <div class="chips" id="chips" role="tablist"></div>
-        <div class="grid" id="grid"></div>
-      </div>
-    </section>
-
-    <!-- Lamps: an after-dark room where each lamp switches on -->
-    <section class="lamps" id="lamps">
-      <div class="wrap">
-        <div class="lamps__head">
-          <div>
-            <p class="eyebrow eyebrow--light">After dark</p>
-            <h2>Lamps that throw patterns</h2>
-            <p class="lamps__lead">Pierced, carved and glazed by hand. Switch one on and the whole room fills with light and shadow.</p>
-          </div>
-          <button class="switch" id="light-switch" type="button" aria-pressed="true">
-            <span class="switch__track"><span class="switch__knob"></span></span>
-            <span class="switch__label">Lights on</span>
-          </button>
-        </div>
-        <div class="lamps__grid" id="lamp-grid"></div>
-      </div>
-    </section>
-    <!-- Home decor: a light gallery wall -->
-    <section class="decor" id="decor">
-      <div class="wrap">
-        <div class="decor__head">
-          <p class="eyebrow">Home decor</p>
-          <h2>Clay for every corner</h2>
-          <p class="decor__lead">Flower frogs and ikebana bowls, wall vases, clocks and tableware. Small pieces that make a room feel made by hand.</p>
-        </div>
-        <div class="decor__wall" id="decor-wall"></div>
-      </div>
-    </section>
-    <!-- Shop by occasion -->
-    <section class="occasions wrap" id="occasions">
-      <div class="section-head"><h2>Shop by occasion</h2></div>
-      <div class="occ-grid">
-        <a href="#catalogue" data-filter="espresso" class="occ reveal"><span class="occ__img" data-cup="111"></span><h3>Morning coffee</h3><p>Espresso &amp; cappuccino cups</p></a>
-        <a href="#catalogue" data-filter="sets" class="occ reveal"><span class="occ__img" data-cup="202"></span><h3>Gift a set</h3><p>Mixed glazes, gift boxed</p></a>
-        <a href="#catalogue" data-filter="under1000" class="occ reveal"><span class="occ__img" data-cup="125"></span><h3>Under ₹999</h3><p>Everyday pieces</p></a>
-        <a href="#bulk" class="occ reveal"><span class="occ__img"><img src="images/scene-shelf.jpg" alt="Glazed cups and mugs on a studio shelf" loading="lazy"></span><h3>Cafés &amp; studios</h3><p>Custom glazes in bulk</p></a>
+        <a href="story.html" class="btn btn--light">Read our story</a>
       </div>
     </section>
 
@@ -250,109 +177,14 @@
       </div>
     </section>
 
-    <!-- Story: the making of a cup, told as you scroll -->
-    <section class="story" id="story">
-      <div class="wrap story__intro">
-        <p class="eyebrow">Our story</p>
-        <h2>From a lump of clay to your morning cup.</h2>
-        <p>Every Studio Clayrity piece takes five steps and about ten days to make. Scroll to follow one cup from the wheel to the kiln.</p>
-      </div>
-
-      <div class="process" style="--steps: 5">
-        <div class="process__sticky">
-          <div class="wrap process__inner">
-            <div class="process__media" aria-hidden="true">
-              <figure class="process__img"><img src="images/hands-wheel.jpg" alt=""></figure>
-              <figure class="process__img"><img src="images/cup-102.jpg" alt=""></figure>
-              <figure class="process__img"><img src="images/scene-shelf.jpg" alt=""></figure>
-              <figure class="process__img"><img src="images/cup-123.jpg" alt=""></figure>
-              <figure class="process__img"><img src="images/cup-110.jpg" alt=""></figure>
-              <img class="process__mark" src="images/lamp-ivory.png" alt="">
-            </div>
-            <div class="process__text">
-              <ol class="process__steps">
-                <li class="process__step">
-                  <span class="process__no">01</span>
-                  <h3>Centre the clay</h3>
-                  <p>Local stoneware is wedged by hand to push out air, then centred on the wheel until it spins perfectly true.</p>
-                  <span class="process__when">Day 1</span>
-                </li>
-                <li class="process__step">
-                  <span class="process__no">02</span>
-                  <h3>Throw the form</h3>
-                  <p>The walls are pulled up in three or four passes. The rings you feel on a tumbler are the potter's fingertips.</p>
-                  <span class="process__when">Day 1</span>
-                </li>
-                <li class="process__step">
-                  <span class="process__no">03</span>
-                  <h3>Dry and trim</h3>
-                  <p>Cups rest on wooden shelves until leather-hard, then go back on the wheel upside down to carve a clean foot.</p>
-                  <span class="process__when">Days 2–5</span>
-                </li>
-                <li class="process__step">
-                  <span class="process__no">04</span>
-                  <h3>Dip in glaze</h3>
-                  <p>Each piece is dipped in two or three glazes. Where they overlap, they will run, pool and break in the heat.</p>
-                  <span class="process__when">Day 7</span>
-                </li>
-                <li class="process__step">
-                  <span class="process__no">05</span>
-                  <h3>Fire the kiln</h3>
-                  <p>A slow climb to about 1,240°C, then two days of cooling. Opening the kiln is the moment every glaze reveals itself.</p>
-                  <span class="process__when">Days 8–10</span>
-                </li>
-              </ol>
-              <div class="process__meter" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="wrap">
-        <p class="note">Replace this story with the seller's own process and photos of their hands at the wheel.</p>
-        <dl class="care">
-          <div><dt>Food-safe</dt><dd>Lead-free glazes, high-fired for everyday use with hot drinks.</dd></div>
-          <div><dt>Gentle care</dt><dd>Hand-wash recommended to keep the glaze bright for years.</dd></div>
-          <div><dt>Safe shipping</dt><dd>Every cup is layer-wrapped and boxed. If anything arrives broken, we replace it.</dd></div>
-        </dl>
-      </div>
-    </section>
-
-    <!-- Instagram -->
-    <section class="insta" id="instagram">
-      <div class="wrap">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Follow along</p>
-            <h2><a class="js-insta js-insta-handle" href="#" target="_blank" rel="noopener">@studio_clayrity</a></h2>
-          </div>
-          <a class="link-arrow js-insta" href="#" target="_blank" rel="noopener">Follow on Instagram →</a>
-        </div>
-        <!-- Reels: add links in the REELS list in script.js -->
-        <div class="reels" id="reels" aria-label="Reels from the studio"></div>
-      </div>
-    </section>
-
-    <!-- Bulk / custom enquiry -->
-    <section class="bulk" id="bulk">
-      <div class="wrap bulk__inner">
+    <!-- Bulk and custom orders, in one line -->
+    <section class="cta-strip">
+      <div class="wrap cta-strip__inner">
         <div>
           <p class="eyebrow eyebrow--light">Bulk &amp; custom orders</p>
-          <h2>For cafés, studios &amp; corporate gifting</h2>
-          <p>Cups in your own glaze colour, logo stamps on the foot, and sets for weddings and teams. Tell us what you need and we'll reply on WhatsApp.</p>
+          <h2>Cups for your café, studio or wedding</h2>
         </div>
-        <form class="form" id="bulk-form">
-          <input name="name" placeholder="Your name" required>
-          <select name="type">
-            <option>Café / restaurant</option>
-            <option>Corporate gifting</option>
-            <option>Wedding / return gifts</option>
-            <option>Custom glaze or piece</option>
-          </select>
-          <input name="qty" type="number" min="1" placeholder="Approximate quantity">
-          <textarea name="msg" rows="3" placeholder="What are you looking for?"></textarea>
-          <button type="submit" class="btn btn--light">Send enquiry on WhatsApp</button>
-        </form>
+        <a href="gifting.html#bulk" class="btn btn--light">Enquire about bulk orders</a>
       </div>
     </section>
   </main>
@@ -362,12 +194,12 @@
       <div class="footer__brand">
         <img src="images/logo-emblem.png" alt="" width="64" height="64">
         <div>
-          <a href="#" class="logo">Studio Clayrity</a>
+          <a href="index.html" class="logo">Studio Clayrity</a>
           <p>Hand-thrown cups for everyday rituals.</p>
         </div>
       </div>
-      <div><h4>Shop</h4><a href="#catalogue">Catalogue</a><a href="#sizes">Cups by size</a><a href="#occasions">Gift pairs</a><a href="#bulk">Bulk orders</a></div>
-      <div><h4>Help</h4><a href="#how">How to order</a><a href="#story">Care guide</a><a href="#" class="js-wa">Chat with us</a></div>
+      <div><h4>Shop</h4><a href="shop.html">Shop all</a><a href="shop.html?cat=cups">Cups &amp; mugs</a><a href="lamps.html">Lamps</a><a href="decor.html">Home decor</a><a href="gifting.html">Gift sets</a></div>
+      <div><h4>Help</h4><a href="index.html#how">How to order</a><a href="story.html#care">Care guide</a><a href="gifting.html#bulk">Bulk orders</a><a href="#" class="js-wa">Chat with us</a></div>
       <div><h4>Follow</h4><a href="#" class="js-insta" target="_blank" rel="noopener">Instagram</a><a href="#" class="js-wa">WhatsApp</a></div>
     </div>
     <div class="footer__mark" aria-hidden="true">Studio Clayrity</div>

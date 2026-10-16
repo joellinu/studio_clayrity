@@ -59,6 +59,7 @@ const PRODUCTS = [
 
 const FILTERS = [
   { key: "all",        label: "All" },
+  { key: "cups",       label: "Cups & mugs" },
   { key: "espresso",   label: "Espresso" },
   { key: "cappuccino", label: "Cappuccino" },
   { key: "tea",        label: "Tea cups" },
@@ -83,7 +84,10 @@ const waLink = (text) => `https://wa.me/${SHOP.whatsapp}?text=${encodeURICompone
 const pieceNo = (p) => (p.no ? `No. ${String(p.no).padStart(2, "0")} ` : "");
 const fullName = (p) => `${pieceNo(p)}${p.name}${p.glaze ? ` – ${p.glaze}` : ""}`;
 const details = (p) => [p.glaze && `${p.glaze} glaze`, p.size].filter(Boolean).join(" · ");
-const isSingle = (p) => !["sets", "lamp", "decor"].includes(p.type);
+const CUP_TYPES = ["espresso", "cappuccino", "tea", "tumbler", "mug", "bowl"];
+const isCup = (p) => CUP_TYPES.includes(p.type);
+const matchesFilter = (p, key) =>
+  key === "all" ? true : key === "cups" ? isCup(p) : key === "under1000" ? p.price < 1000 : p.type === key;
 const WA_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.4z"/></svg>`;
 
 const media = (p) => `<img src="images/${p.img}" alt="${fullName(p)}" loading="lazy">`;
@@ -97,12 +101,12 @@ document.querySelectorAll(".js-insta").forEach((a) => (a.href = `https://instagr
 document.querySelectorAll(".js-insta-handle").forEach((a) => (a.textContent = "@" + SHOP.instagram));
 
 // ---------- Hero orbit: a ring of cups and a ring of words around the emblem ----------
-const orbitCups = PRODUCTS.filter((p) => !["sets", "lamp", "decor"].includes(p.type) && !p.soldOut).slice(0, 12);
+const orbitCups = PRODUCTS.filter((p) => isCup(p) && !p.soldOut).slice(0, 12);
 const orbitRing = document.getElementById("orbit-ring");
 if (orbitRing) {
   orbitRing.style.setProperty("--step", `${360 / orbitCups.length}deg`);
   orbitRing.innerHTML = orbitCups.map((p, i) => `
-    <a class="orb" style="--i: ${i}" href="#catalogue" data-filter="${p.type}" aria-label="${p.name}: see all ${p.type === "bowl" ? "chawans" : p.type + "s"}">
+    <a class="orb" style="--i: ${i}" href="shop.html?cat=${p.type}" aria-label="${p.name}: see all ${p.type === "bowl" ? "chawans" : p.type + "s"}">
       <span class="orb__in"><img src="images/${p.img}" alt="" loading="eager"></span>
     </a>`).join("");
 }
@@ -145,13 +149,28 @@ function card(p, { code = false } = {}) {
 
 // Glaze-name ticker (listed twice so the loop is seamless)
 const glazeNames = [...new Set(PRODUCTS.map((p) => p.glaze).filter(Boolean))];
-document.getElementById("glazes").innerHTML = [...glazeNames, ...glazeNames].map((g) => `<span>${g}</span>`).join("");
+const glazesEl = document.getElementById("glazes");
+if (glazesEl) glazesEl.innerHTML = [...glazeNames, ...glazeNames].map((g) => `<span>${g}</span>`).join("");
 
-// New from the kiln: cups only, newest first
-document.getElementById("wall").innerHTML = PRODUCTS
-  .filter(isSingle)
-  .sort((a, b) => (b.badge === "New") - (a.badge === "New"))
-  .map((p) => card(p)).join("");
+// Home: bestsellers and new pieces from every collection (cups, lamps, decor), bestsellers first
+const wallEl = document.getElementById("wall");
+if (wallEl) {
+  wallEl.innerHTML = PRODUCTS
+    .filter((p) => p.badge && !p.soldOut && p.type !== "sets")
+    .sort((a, b) => (b.badge === "Bestseller") - (a.badge === "Bestseller"))
+    .slice(0, 12)
+    .map((p) => card(p)).join("");
+}
+
+// Home: how many pieces each collection has, e.g. "22 pieces"
+document.querySelectorAll("[data-count]").forEach((el) => {
+  const n = PRODUCTS.filter((p) => matchesFilter(p, el.dataset.count)).length;
+  el.textContent = `${n} ${n === 1 ? "piece" : "pieces"}`;
+});
+
+// Gifting page: the gift sets
+const setsGrid = document.getElementById("sets-grid");
+if (setsGrid) setsGrid.innerHTML = PRODUCTS.filter((p) => p.type === "sets").map((p) => card(p)).join("");
 
 // ---------- Lamps: their own after-dark section, with a light switch ----------
 const lampGrid = document.getElementById("lamp-grid");
@@ -189,6 +208,7 @@ if (decorWall) {
 // ---------- Catalogue: every product, with filters ----------
 let activeFilter = "all";
 const grid = document.getElementById("grid");
+if (grid) {
 const sortSel = document.getElementById("sort");
 const stockSel = document.getElementById("stock");
 const chips = document.getElementById("chips");
@@ -198,9 +218,7 @@ chips.innerHTML = FILTERS.map((f) =>
 ).join("");
 
 function renderGrid() {
-  let list = PRODUCTS.filter((p) =>
-    activeFilter === "all" ? true : activeFilter === "under1000" ? p.price < 1000 : p.type === activeFilter
-  );
+  let list = PRODUCTS.filter((p) => matchesFilter(p, activeFilter));
   if (stockSel.value === "in") list = list.filter((p) => !p.soldOut);
   if (stockSel.value === "out") list = list.filter((p) => p.soldOut);
   if (sortSel.value === "low") list = [...list].sort((a, b) => a.price - b.price);
@@ -232,11 +250,18 @@ stockSel.addEventListener("change", renderGrid);
 document.querySelectorAll("a[data-filter], button[data-filter]:not(.chip)").forEach((el) =>
   el.addEventListener("click", () => setFilter(el.dataset.filter))
 );
+// Arriving from another page with a filter, e.g. shop.html?cat=lamp
+const startCat = new URLSearchParams(location.search).get("cat");
+if (startCat && FILTERS.some((f) => f.key === startCat)) {
+  activeFilter = startCat;
+  chips.querySelectorAll(".chip").forEach((c) => c.classList.toggle("active", c.dataset.filter === startCat));
+}
 renderGrid();
+}
 
 // ---------- Instagram reels (official embed) ----------
 const reelsEl = document.getElementById("reels");
-if (REELS.length) {
+if (reelsEl && REELS.length) {
   reelsEl.innerHTML = REELS.map((url) => {
     const link = url.split("?")[0];
     // Shown until Instagram's script swaps it for the playable reel (or if it's blocked)
@@ -253,7 +278,7 @@ if (REELS.length) {
   s.src = "https://www.instagram.com/embed.js";
   s.onload = () => window.instgrm && window.instgrm.Embeds.process();
   document.body.appendChild(s);
-} else {
+} else if (reelsEl) {
   reelsEl.remove();
 }
 
@@ -363,7 +388,8 @@ document.getElementById("order-form").addEventListener("submit", (e) => {
 renderBag();
 
 // ---------- Bulk enquiry → WhatsApp ----------
-document.getElementById("bulk-form").addEventListener("submit", (e) => {
+const bulkForm = document.getElementById("bulk-form");
+if (bulkForm) bulkForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const f = new FormData(e.target);
   const text = `Hi ${SHOP.name}! Bulk / custom enquiry:\nName: ${f.get("name")}\nFor: ${f.get("type")}\nQuantity: ${f.get("qty") || "—"}\n${f.get("msg") || ""}`;
@@ -371,8 +397,9 @@ document.getElementById("bulk-form").addEventListener("submit", (e) => {
 });
 
 // ---------- Drag-to-scroll product row ----------
-const wall = document.getElementById("wall");
+const wall = wallEl;
 let down = false, startX = 0, startScroll = 0, moved = false;
+if (wall) {
 wall.addEventListener("pointerdown", (e) => {
   if (e.pointerType !== "mouse" || e.target.closest("button, a")) return;
   down = true; moved = false; startX = e.clientX; startScroll = wall.scrollLeft;
@@ -388,6 +415,7 @@ wall.addEventListener("click", (e) => { if (moved) { e.stopPropagation(); e.prev
 document.querySelectorAll(".wall__nav .arrow").forEach((btn) =>
   btn.addEventListener("click", () => wall.scrollBy({ left: +btn.dataset.dir * 600, behavior: "smooth" }))
 );
+}
 
 // ---------- Mobile menu ----------
 const menuBtn = document.querySelector(".menu-btn");
@@ -403,7 +431,7 @@ const fxOn = !!window.Motion && !reduceMotion; // fx.js (Motion) handles reveals
 
 // ---------- Scroll reveal: sections ease in, siblings one after another ----------
 document.querySelectorAll(
-  ".section-head, .cat, .promise__inner > div, .care > div, .reels, .bulk__inner > *, .footer__inner > div"
+  ".section-head, .cat, .explore__tile, .promise__inner > div, .care > div, .reels, .bulk__inner > *, .footer__inner > div, .cta-strip__inner"
 ).forEach((el) => el.classList.add("reveal"));
 
 const io = "IntersectionObserver" in window && !reduceMotion && !fxOn && new IntersectionObserver((entries) => {

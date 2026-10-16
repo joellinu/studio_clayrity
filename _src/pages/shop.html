@@ -1,0 +1,50 @@
+<!-- page: {"title":"Shop — Studio Clayrity","description":"Every Studio Clayrity piece in one place: cups and mugs, lamps, home decor and gift sets. Order on WhatsApp.","nav":"shop"} -->
+    <section class="page-head wrap">
+      <p class="eyebrow">The shop</p>
+      <h1>Every piece, in one place</h1>
+      <p class="page-head__lead">Cups and mugs, lamps, home decor and gift sets. Filter by collection or cup size, then order in one message on WhatsApp.</p>
+    </section>
+
+    <!-- Cups by size -->
+    <section class="sizes wrap" id="sizes">
+      <div class="section-head"><h2>Cups by size</h2></div>
+      <div class="size-tiles">
+        <a href="#catalogue" data-filter="espresso" class="size-tile reveal"><span class="size-tile__img" data-cup="116"></span><span class="size-tile__ml">90–100 ml</span><span class="size-tile__name">Espresso cups</span></a>
+        <a href="#catalogue" data-filter="tea" class="size-tile reveal"><span class="size-tile__img" data-cup="106"></span><span class="size-tile__ml">160–230 ml</span><span class="size-tile__name">Tea cups</span></a>
+        <a href="#catalogue" data-filter="cappuccino" class="size-tile reveal"><span class="size-tile__img" data-cup="107"></span><span class="size-tile__ml">200–250 ml</span><span class="size-tile__name">Cappuccino cups</span></a>
+        <a href="#catalogue" data-filter="tumbler" class="size-tile reveal"><span class="size-tile__img" data-cup="102"></span><span class="size-tile__ml">280–380 ml</span><span class="size-tile__name">Tumblers</span></a>
+      </div>
+    </section>
+
+    <!-- Catalogue: every product -->
+    <section class="shop" id="catalogue">
+      <div class="wrap">
+        <div class="section-head section-head--stack">
+          <div class="toolbar__spacer"></div>
+          <div class="toolbar">
+            <span class="toolbar__count" id="count"></span>
+            <label class="sort">Availability
+              <select id="stock">
+                <option value="all">All</option>
+                <option value="in">In stock</option>
+                <option value="out">Sold out</option>
+              </select>
+            </label>
+            <label class="sort">Sort
+              <select id="sort">
+                <option value="featured">Featured</option>
+                <option value="code">Catalogue number</option>
+                <option value="low">Price, low to high</option>
+                <option value="high">Price, high to low</option>
+                <option value="new">Newest</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="chips" id="chips" role="tablist"></div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <!-- Glaze names, drifting -->
+    <div class="glazes" aria-hidden="true"><div class="glazes__track" id="glazes"></div></div>
