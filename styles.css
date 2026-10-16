@@ -312,6 +312,19 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
 .switch[aria-pressed="true"] .switch__track { background: rgba(224, 168, 130, .35); }
 .switch[aria-pressed="false"] .switch__knob { transform: translateX(0); background: #6e5a4c; box-shadow: none; }
 .switch:focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 4px; border-radius: 6px; }
+/* Home decor: a light gallery wall. Columns drift at different speeds; photos are unveiled top to bottom. */
+.decor { background: var(--paper); padding-block: 104px; overflow: hidden; border-top: 1px solid var(--line); }
+.decor__head { text-align: center; max-width: 640px; margin: 0 auto 56px; display: grid; justify-items: center; }
+.decor__head h2 { margin: 0 0 12px; }
+.decor__lead { margin: 0; color: var(--ink-soft); max-width: 52ch; }
+.decor__wall { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
+.decor__col { display: flex; flex-direction: column; gap: 44px; will-change: transform; }
+.decor__col:nth-child(2) { padding-top: 72px; } /* stagger the middle column like a hung wall */
+.decor .card__img { aspect-ratio: 4 / 5; border-radius: 2px; }
+.decor .card__img > img { transition: transform 1.4s var(--ease); }
+.decor .card:hover .card__img > img { transform: scale(1.05); }
+.decor .card__info { padding-top: 16px; }
+.decor .card__name { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; }
 /* Occasions */
 .occasions { padding: 104px 0 24px; }
 .occ-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
@@ -594,7 +607,12 @@ h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
   .banner img { object-position: 30% center; }
   .banner::before { background: linear-gradient(0deg, rgba(36, 26, 21, .8) 0%, rgba(36, 26, 21, .2) 60%, rgba(36, 26, 21, 0) 100%); }
   .banner__text { width: calc(100% - 32px); }
-  .wall, .shop, .how, .story, .insta, .bulk, .lamps { padding-block: 64px; }
+  .wall, .shop, .how, .story, .insta, .bulk, .lamps, .decor { padding-block: 64px; }
+  .decor__wall { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .decor__col { gap: 28px; }
+  .decor__col:nth-child(2) { padding-top: 40px; }
+  .decor .card__name { font-size: 1rem; }
+  .decor__head { margin-bottom: 36px; }
   .lamps { margin-top: 64px; }
   .lamps__grid { gap: 28px 12px; }
   .cats__grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }

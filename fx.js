@@ -304,6 +304,16 @@
     heroHead.style.opacity = (1 - 1.3 * heroP).toFixed(3);
     heroFoot.style.opacity = (1 - 1.6 * heroP).toFixed(3);
     if (process) drawProcess();
+    // Home decor: the gallery columns drift at different speeds (wide screens only)
+    const wall = document.getElementById("decor-wall");
+    if (wall && !small && wall.children.length === 3) {
+      const r = wall.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < innerHeight) {
+        const p = clamp01((innerHeight - r.top) / (innerHeight + r.height)) * 2 - 1; // -1 … 1 through the section
+        const drift = [36, -64, 36];
+        [...wall.children].forEach((col, k) => (col.style.transform = `translateY(${(drift[k] * p).toFixed(1)}px)`));
+      }
+    }
     if (banner) {
       const r = banner.getBoundingClientRect();
       if (r.bottom > -100 && r.top < innerHeight + 100) {
@@ -322,7 +332,7 @@
   onScrollFrame();
 
   // ---------- Reveals: sections rise in; headings arrive word by word ----------
-  const headings = $$(".section-head h2, .banner h2, .story__intro h2, .bulk h2, .lamps__head h2").filter((h) => !h.children.length);
+  const headings = $$(".section-head h2, .banner h2, .story__intro h2, .bulk h2, .lamps__head h2, .decor__head h2").filter((h) => !h.children.length);
   const headingWords = new Map(headings.map((h) => [h, split(h)]));
   headingWords.forEach((words) => words.forEach((w) => (w.style.transform = "translateY(110%)")));
   headingWords.forEach((words, h) => {
@@ -351,6 +361,27 @@
       introDone.then(() => setTimeout(() => c.classList.add("is-lit"), 250 + (i % 3) * 260));
     }, { margin: "0px 0px -15% 0px" });
   });
+  // ---------- Home decor: each photo is unveiled top to bottom, like a cloth lifted off ----------
+  const decorWallEl = $("#decor-wall");
+  if (decorWallEl) {
+    $$(".card", decorWallEl).forEach((c, i) => {
+      const img = $(".card__img > img", c);
+      const text = [$(".card__info", c), $(".card__meta", c), $(".badge", c)].filter(Boolean);
+      if (img) img.style.clipPath = "inset(0% 0% 100% 0%)";
+      text.forEach((t) => (t.style.opacity = 0));
+      const stop = inView(c, () => {
+        stop();
+        introDone.then(() => {
+          const d = (i % 3) * 0.12;
+          if (img) {
+            animate(img, { clipPath: ["inset(0% 0% 100% 0%)", "inset(0% 0% 0% 0%)"] }, { duration: 1.3, ease: [0.77, 0, 0.18, 1], delay: d });
+            animate(img, { scale: [1.18, 1] }, { duration: 1.8, ease: easeOut, delay: d });
+          }
+          animate(text, { opacity: [0, 1], y: [14, 0] }, { duration: 0.8, ease: easeOut, delay: d + 0.55 });
+        });
+      }, { margin: "0px 0px -10% 0px" });
+    });
+  }
   // ---------- Promise strip: the icons draw themselves in, one after another ----------
   const promiseItems = $$(".promise__item");
   if (promiseItems.length) {
@@ -596,7 +627,7 @@
     document.documentElement.classList.remove("fx");
     const intro = document.querySelector(".intro");
     if (intro) intro.remove();
-    document.querySelectorAll(".w__in, .l3, .orb__in, .card, .reveal, .hero *, .header *, .footer__mark *, .process__step").forEach((el) => {
+    document.querySelectorAll(".w__in, .l3, .orb__in, .card, .card__info, .card__meta, .badge, .reveal, .hero *, .header *, .footer__mark *, .process__step").forEach((el) => {
       el.style.opacity = "";
       el.style.transform = "";
       el.style.filter = "";

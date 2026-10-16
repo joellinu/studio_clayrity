@@ -10,7 +10,8 @@ const SHOP = {
 // ============================================================
 //  PRODUCTS: edit names, prices and photos here.
 //  img: photo file in /images (cups are cup-<id>.jpg, so a new photo can simply replace the old file)
-//  type: espresso | cappuccino | tea | tumbler | mug | bowl | lamp | sets
+//  type: espresso | cappuccino | tea | tumbler | mug | bowl | lamp | decor | sets
+//  ar (optional): photo proportions, width/height, used by the home decor gallery wall
 //  badge (optional): Bestseller | New
 //  no (optional): piece number for one-of-a-kind pieces, e.g. 7 → "No. 07"
 //  soldOut (optional): true to show "Sold out" and turn the button into a restock request
@@ -46,6 +47,14 @@ const PRODUCTS = [
   { id: 304, name: "Hive lamp",                      type: "lamp",       price: 4500, glaze: "Unglazed stoneware", size: "On a brick base",     img: "lamp-hive.jpg" },
   { id: 305, name: "Coral tower lamp",               type: "lamp",       price: 5200, glaze: "Ash white",       size: "One of a kind",          img: "lamp-coral.jpg", no: 3 },
   { id: 306, name: "Gourd night lamp",               type: "lamp",       price: 2400, glaze: "Smoked black",    size: "Pierced spiral, 26 cm",  img: "lamp-gourd.jpg", badge: "New" },
+  { id: 401, name: "Flower frog bowl",               type: "decor",      price: 1850, glaze: "Ivory",           size: "Holds stems upright",    img: "decor-flower-frog.jpg", ar: "880/1100", badge: "New" },
+  { id: 402, name: "Indigo wall pockets, set of 4",  type: "decor",      price: 3400, glaze: "Carved indigo",   size: "Hang on any wall",       img: "decor-wall-pockets.jpg", ar: "880/1100", badge: "Bestseller" },
+  { id: 403, name: "Leaf-print wall clock",          type: "decor",      price: 2600, glaze: "Sage slip",       size: "Real leaves pressed in, 30 cm", img: "decor-leaf-clock.jpg", ar: "733/1100" },
+  { id: 404, name: "Ridge vase",                     type: "decor",      price: 2200, glaze: "Raw terracotta",  size: "Hand-carved ridges",     img: "decor-ridge-vase.jpg", ar: "883/1100" },
+  { id: 405, name: "Ikebana bowl",                   type: "decor",      price: 1650, glaze: "Matte terracotta", size: "Footed, 20 cm",         img: "decor-ikebana-bowl.jpg", ar: "1/1" },
+  { id: 406, name: "Drip spoon rest",                type: "decor",      price: 450,  glaze: "White over raw clay", size: "Kitchen counter",    img: "decor-spoon-rests.jpg", ar: "750/1000" },
+  { id: 407, name: "Moon crater vase",               type: "decor",      price: 2900, glaze: "Crater white",    size: "One of a kind",          img: "decor-moon-vase.jpg", ar: "1/1", no: 21 },
+  { id: 408, name: "Meadow dinner set",              type: "decor",      price: 4800, glaze: "Hand-painted",    size: "2 plates, 2 cups, 2 saucers", img: "decor-dinner-set.jpg", ar: "733/1100" },
 ];
 
 const FILTERS = [
@@ -57,6 +66,7 @@ const FILTERS = [
   { key: "mug",        label: "Mugs" },
   { key: "bowl",       label: "Chawans" },
   { key: "lamp",       label: "Lamps" },
+  { key: "decor",      label: "Home decor" },
   { key: "sets",       label: "Sets" },
   { key: "under1000",  label: "Under ₹999" },
 ];
@@ -73,7 +83,7 @@ const waLink = (text) => `https://wa.me/${SHOP.whatsapp}?text=${encodeURICompone
 const pieceNo = (p) => (p.no ? `No. ${String(p.no).padStart(2, "0")} ` : "");
 const fullName = (p) => `${pieceNo(p)}${p.name}${p.glaze ? ` – ${p.glaze}` : ""}`;
 const details = (p) => [p.glaze && `${p.glaze} glaze`, p.size].filter(Boolean).join(" · ");
-const isSingle = (p) => p.type !== "sets" && p.type !== "lamp";
+const isSingle = (p) => !["sets", "lamp", "decor"].includes(p.type);
 const WA_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.4z"/></svg>`;
 
 const media = (p) => `<img src="images/${p.img}" alt="${fullName(p)}" loading="lazy">`;
@@ -87,7 +97,7 @@ document.querySelectorAll(".js-insta").forEach((a) => (a.href = `https://instagr
 document.querySelectorAll(".js-insta-handle").forEach((a) => (a.textContent = "@" + SHOP.instagram));
 
 // ---------- Hero orbit: a ring of cups and a ring of words around the emblem ----------
-const orbitCups = PRODUCTS.filter((p) => !["sets", "lamp"].includes(p.type) && !p.soldOut).slice(0, 12);
+const orbitCups = PRODUCTS.filter((p) => !["sets", "lamp", "decor"].includes(p.type) && !p.soldOut).slice(0, 12);
 const orbitRing = document.getElementById("orbit-ring");
 if (orbitRing) {
   orbitRing.style.setProperty("--step", `${360 / orbitCups.length}deg`);
@@ -154,6 +164,27 @@ if (lampGrid) {
     lightSwitch.setAttribute("aria-pressed", String(!off));
     lightSwitch.querySelector(".switch__label").textContent = off ? "Lights off" : "Lights on";
   });
+}
+// ---------- Home decor: a gallery wall of staggered columns (3 on wide screens, 2 on phones) ----------
+const decorWall = document.getElementById("decor-wall");
+if (decorWall) {
+  const decorItems = PRODUCTS.filter((p) => p.type === "decor");
+  let decorCols = 0;
+  const buildDecor = () => {
+    const cols = window.matchMedia("(max-width: 640px)").matches ? 2 : 3;
+    if (cols === decorCols) return;
+    decorCols = cols;
+    const buckets = Array.from({ length: cols }, () => []);
+    decorItems.forEach((p, i) => buckets[i % cols].push(p));
+    decorWall.innerHTML = buckets.map((b) => `<div class="decor__col">${b.map((p) => card(p)).join("")}</div>`).join("");
+    decorWall.querySelectorAll(".card").forEach((el) => {
+      const p = byId(+el.dataset.pid);
+      if (p && p.ar) el.querySelector(".card__img").style.aspectRatio = p.ar; // reserve the photo's real shape
+    });
+    decorWall.dispatchEvent(new CustomEvent("decor:built"));
+  };
+  buildDecor();
+  window.addEventListener("resize", buildDecor);
 }
 // ---------- Catalogue: every product, with filters ----------
 let activeFilter = "all";
