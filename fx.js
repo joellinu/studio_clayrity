@@ -309,16 +309,16 @@
     const y = scrollY;
     if (heroScroll) heroScroll(y);
     if (process) drawProcess();
-    // Home decor: the gallery columns drift at different speeds (wide screens only)
-    const wall = document.getElementById("decor-wall");
-    if (wall && !small && wall.children.length === 3) {
+    // Gallery walls (Home decor, Tableware): the columns drift at different speeds (wide screens, 3 columns)
+    document.querySelectorAll(".decor__wall").forEach((wall) => {
+      if (small || wall.children.length !== 3) return;
       const r = wall.getBoundingClientRect();
       if (r.bottom > 0 && r.top < innerHeight) {
         const p = clamp01((innerHeight - r.top) / (innerHeight + r.height)) * 2 - 1; // -1 … 1 through the section
         const drift = [36, -64, 36];
         [...wall.children].forEach((col, k) => (col.style.transform = `translateY(${(drift[k] * p).toFixed(1)}px)`));
       }
-    }
+    });
     if (banner) {
       const r = banner.getBoundingClientRect();
       if (r.bottom > -100 && r.top < innerHeight + 100) {
@@ -366,9 +366,8 @@
       introDone.then(() => setTimeout(() => c.classList.add("is-lit"), 250 + (i % 3) * 260));
     }, { margin: "0px 0px -15% 0px" });
   });
-  // ---------- Home decor: each photo is unveiled top to bottom, like a cloth lifted off ----------
-  const decorWallEl = $("#decor-wall");
-  if (decorWallEl) {
+  // ---------- Gallery walls: each photo is unveiled top to bottom, like a cloth lifted off ----------
+  $$(".decor__wall").forEach((decorWallEl) => {
     $$(".card", decorWallEl).forEach((c, i) => {
       const img = $(".card__img > img", c);
       const text = [$(".card__info", c), $(".card__meta", c), $(".badge", c)].filter(Boolean);
@@ -386,7 +385,7 @@
         });
       }, { margin: "0px 0px -10% 0px" });
     });
-  }
+  });
   // ---------- Promise strip: the icons draw themselves in, one after another ----------
   const promiseItems = $$(".promise__item");
   if (promiseItems.length) {

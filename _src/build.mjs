@@ -14,18 +14,20 @@ const NAV = [
   { key: "shop", href: "shop.html", label: "Shop" },
   { key: "lamps", href: "lamps.html", label: "Lamps" },
   { key: "decor", href: "decor.html", label: "Home Decor" },
+  { key: "tableware", href: "tableware.html", label: "Tableware" },
   { key: "gifting", href: "gifting.html", label: "Gifting &amp; Bulk" },
   { key: "story", href: "story.html", label: "Our Story" },
 ];
 
-// The four collections, used by "Explore the studio" (home) and "Keep exploring" (collection pages)
+// The collections, used by "Explore the studio" (home) and "Keep exploring" (collection pages)
 const COLLECTIONS = [
   { key: "cups", href: "shop.html?cat=cups", title: "Cups &amp; mugs", img: "scene-studio.jpg", count: "cups" },
   { key: "lamps", href: "lamps.html", title: "Lamps", img: "lamp-coral.jpg", count: "lamp" },
   { key: "decor", href: "decor.html", title: "Home decor", img: "decor-wall-pockets.jpg", count: "decor" },
+  { key: "tableware", href: "tableware.html", title: "Tableware", img: "decor-dinner-set.jpg", count: "tableware" },
   { key: "gifting", href: "gifting.html", title: "Gifts &amp; sets", img: "scene-table.jpg", count: "sets" },
 ];
-const exploreGrid = (skip) => `<div class="explore__grid">
+const exploreGrid = (skip) => `<div class="explore__grid" style="--n: ${COLLECTIONS.filter((c) => c.key !== skip).length}">
 ${COLLECTIONS.filter((c) => c.key !== skip).map((c) => `        <a class="explore__tile" href="${c.href}">
           <span class="explore__img"><img src="images/${c.img}" alt="" loading="lazy"></span>
           <span class="explore__text"><span class="explore__title">${c.title}</span><span class="explore__count" data-count="${c.count}"></span></span>

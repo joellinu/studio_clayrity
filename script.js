@@ -10,7 +10,9 @@ const SHOP = {
 // ============================================================
 //  PRODUCTS: edit names, prices and photos here.
 //  img: photo file in /images (cups are cup-<id>.jpg, so a new photo can simply replace the old file)
-//  type: espresso | cappuccino | tea | tumbler | mug | bowl | lamp | decor | sets
+//  type: espresso | cappuccino | tea | tumbler | mug | bowl | lamp | decor | tableware | sets
+//  gallery (optional): up to 4 photo files for the product view, e.g. ["cup-101.jpg", "cup-101-b.jpg", ...]
+//    Without it, the view shows stand-ins made from the main photo (close-ups and the studio scene).
 //  ar (optional): photo proportions, width/height, used by the home decor gallery wall
 //  badge (optional): Bestseller | New
 //  no (optional): piece number for one-of-a-kind pieces, e.g. 7 → "No. 07"
@@ -52,9 +54,9 @@ const PRODUCTS = [
   { id: 403, name: "Leaf-print wall clock",          type: "decor",      price: 2600, glaze: "Sage slip",       size: "Real leaves pressed in, 30 cm", img: "decor-leaf-clock.jpg", ar: "733/1100" },
   { id: 404, name: "Ridge vase",                     type: "decor",      price: 2200, glaze: "Raw terracotta",  size: "Hand-carved ridges",     img: "decor-ridge-vase.jpg", ar: "883/1100" },
   { id: 405, name: "Ikebana bowl",                   type: "decor",      price: 1650, glaze: "Matte terracotta", size: "Footed, 20 cm",         img: "decor-ikebana-bowl.jpg", ar: "1/1" },
-  { id: 406, name: "Drip spoon rest",                type: "decor",      price: 450,  glaze: "White over raw clay", size: "Kitchen counter",    img: "decor-spoon-rests.jpg", ar: "750/1000" },
+  { id: 406, name: "Drip spoon rest",                type: "tableware",      price: 450,  glaze: "White over raw clay", size: "Kitchen counter",    img: "decor-spoon-rests.jpg", ar: "750/1000" },
   { id: 407, name: "Moon crater vase",               type: "decor",      price: 2900, glaze: "Crater white",    size: "One of a kind",          img: "decor-moon-vase.jpg", ar: "1/1", no: 21 },
-  { id: 408, name: "Meadow dinner set",              type: "decor",      price: 4800, glaze: "Hand-painted",    size: "2 plates, 2 cups, 2 saucers", img: "decor-dinner-set.jpg", ar: "733/1100" },
+  { id: 408, name: "Meadow dinner set",              type: "tableware",      price: 4800, glaze: "Hand-painted",    size: "2 plates, 2 cups, 2 saucers", img: "decor-dinner-set.jpg", ar: "733/1100" },
 ];
 
 const FILTERS = [
@@ -68,6 +70,7 @@ const FILTERS = [
   { key: "bowl",       label: "Chawans" },
   { key: "lamp",       label: "Lamps" },
   { key: "decor",      label: "Home decor" },
+  { key: "tableware",  label: "Tableware" },
   { key: "sets",       label: "Sets" },
   { key: "under1000",  label: "Under ₹999" },
 ];
@@ -155,6 +158,156 @@ function card(p, { code = false } = {}) {
     </article>`;
 }
 
+// ============================================================
+//  PRODUCT DESCRIPTIONS (shown when a product is opened). Edit freely.
+// ============================================================
+const DESCRIPTIONS = {
+  101: "A deep moss-green glaze breaks into a pale, lacy drip halfway down, leaving the speckled stoneware foot bare to the touch. Sized for a flat white or a long cup of chai.",
+  102: "Tall and ringed from the wheel, glazed in a shino that flashes orange and rust where the flame touched it. Generous enough for iced coffee, water or a big pour of tea.",
+  103: "Soft sage over a cream glaze freckled with iron spots, with a thick pulled handle that fits three fingers. An everyday mug for slow mornings.",
+  104: "A low, wide chawan in a glossy plum glaze that pools into violet at the foot. Made for whisking matcha, and just as good for a small dessert.",
+  105: "Cream glaze poured over deep indigo runs in thick drips toward the raw clay foot. Our bestselling mug, with a comfortable pulled handle.",
+  106: "Its walls are carved into soft facets after throwing, so the ochre ash glaze catches the light at every angle. A handleless cup for green tea or a short coffee.",
+  107: "A rounded cup in dark forest green, edged with a pale lace glaze that drips over the belly. It sits nicely in two hands.",
+  108: "A round-bellied mug glazed in amber that melts into a red-brown drip over speckled clay. Warm to hold and hard to put down.",
+  109: "Pink and lilac speckles drift over a tall tumbler, with the glaze stopping in soft waves above the clay. Lovely with iced drinks or on a bedside table.",
+  110: "Cobalt and violet glazes bloom together in this one-of-a-kind chawan, with a single drip running to the foot. No two firings give the same pattern.",
+  111: "A small espresso cup in glossy honey tenmoku over an iron-red base. Just right for a double shot.",
+  112: "Turquoise and seafoam glazes swirl over the body and finish above a bare clay foot. A sturdy everyday mug with a pulled handle.",
+  113: "A wide chawan glazed in olive ash that runs into green drips over speckled stoneware. Sold out for now; ask us about the next firing.",
+  114: "Layered teal and blue glazes settle into a wave line around this ringed tumbler. Holds a tall glass of water or cold brew.",
+  115: "A rust-brown glaze rich with iron, with darker breaks where it thins at the rim. A heavy, reassuring mug.",
+  116: "Deep garnet red fades into speckled stoneware on this small, round espresso cup. New from our latest firing.",
+  117: "Smoky grey and charcoal glazes meet like a dusk sky on this handleless cup. Sold out for now; ask us about the next firing.",
+  118: "A turquoise float glaze with flecks of brown, on a mug sized just right for a cappuccino.",
+  119: "Emerald green dotted with gold crystals that run in drips toward the foot. One of our bestsellers.",
+  121: "Deep merlot red with a dark drip that loops around the lower half, on a handleless cup with a footed base.",
+  123: "Blue-green glaze topped with white, foam-like breaks, like a wave meeting the shore. New this season.",
+  125: "Pale celadon spotted with iron, on a soft pebble-shaped cup that sits comfortably in the hand.",
+  201: "Six cups and mugs in six different glazes, chosen to sit together on one shelf. Gift boxed and ready to give.",
+  202: "Seven tall handleless yunomi cups, each in its own reactive glaze. A colourful set for tea with the whole family.",
+  301: "Raw terracotta pierced with soft pebble-shaped openings. Drop in a pillar candle and it scatters warm light across the table.",
+  302: "Speckled cream glaze drips over dark stoneware, topped with a brass holder and a globe bulb. A small lamp for a desk or bedside.",
+  303: "Hundreds of holes, pierced by hand in rows like a sea urchin's shell. Switched on, it throws a field of light across the walls and ceiling.",
+  304: "A tall carved form with honeycomb openings, standing on a brick base. It glows from inside and casts large, soft patterns.",
+  305: "A sculpted tower of textured clay with openings like coral. One of a kind: this exact piece is the one you receive.",
+  306: "A smoked black gourd pierced with a spiral of light points and a leafy pattern. A gentle night light for a reading corner.",
+  401: "A shallow ivory bowl with a pierced lid that holds stems upright, for small ikebana-style arrangements of just a few flowers.",
+  402: "Four carved wall vases in indigo, each with its own pattern. Hang them together and add a single stem to each.",
+  403: "Real leaves are pressed into the clay before firing, leaving their veins in the sage surface. 30 cm across, with brass hour markers.",
+  404: "Hand-carved ridges wrap a wide terracotta vase. It holds a few garden flowers and looks just as good empty.",
+  405: "A matte terracotta bowl on a rounded foot, made for a kenzan and a branch or two.",
+  406: "A crescent-shaped spoon rest with white glaze dripping over raw clay. It keeps the counter clean while you cook.",
+  407: "A cratered, moon-like surface built up layer by layer. One of a kind, and perfect with a single branch.",
+  408: "Hand-painted plates, cups and saucers with blue meadow flowers and soft yellow stripes: two plates, two cups and two saucers.",
+};
+
+// The studio photo each cup was photographed in (used as one of the stand-in pictures)
+const SCENE_FOR = (id) =>
+  id <= 106 ? "scene-stone.jpg" : id <= 112 ? "scene-studio.jpg" : id <= 118 ? "scene-shelf.jpg" : id <= 125 ? "scene-table.jpg" : null;
+const COLLECTION_NAME = { lamp: "Lamps", decor: "Home decor", tableware: "Tableware", sets: "Gift sets" };
+const CARE = { lamp: "Dust with a soft, dry cloth.", decor: "Wipe with a damp cloth.", tableware: "Hand-wash recommended.", sets: "Hand-wash recommended." };
+
+// Four pictures per product: real photos if listed in "gallery", otherwise stand-ins from the main photo
+function productViews(p) {
+  if (p.gallery && p.gallery.length) return p.gallery.slice(0, 4).map((f, i) => ({ src: f, crop: "full", label: `Photo ${i + 1}` }));
+  const scene = isCup(p) ? SCENE_FOR(p.id) : null;
+  return [
+    { src: p.img, crop: "full", label: "The piece" },
+    { src: p.img, crop: "glaze", label: "Close-up of the glaze" },
+    { src: p.img, crop: "foot", label: p.type === "lamp" ? "Close-up of the base" : "Close-up of the foot" },
+    scene ? { src: scene, crop: "full", label: "In the studio" } : { src: p.img, crop: "side", label: "Another angle" },
+  ];
+}
+
+// ---------- Product view: opens when a product card is clicked ----------
+const pv = document.createElement("div");
+pv.className = "pv";
+pv.hidden = true;
+pv.innerHTML = `
+  <div class="pv__scrim" data-pv-close></div>
+  <div class="pv__panel" role="dialog" aria-modal="true" aria-labelledby="pv-title">
+    <button class="icon-btn pv__close" data-pv-close aria-label="Close">✕</button>
+    <div class="pv__gallery">
+      <div class="pv__main"><img alt=""></div>
+      <div class="pv__thumbs"></div>
+    </div>
+    <div class="pv__info">
+      <p class="eyebrow pv__collection"></p>
+      <h2 id="pv-title" class="pv__name"></h2>
+      <p class="pv__price"></p>
+      <p class="pv__desc"></p>
+      <dl class="pv__details"></dl>
+      <div class="pv__actions"></div>
+      <p class="pv__note">Handmade, so every glaze and size varies a little. Photos marked as stand-ins will be replaced with real photos of each piece.</p>
+    </div>
+  </div>`;
+document.body.appendChild(pv);
+
+function showView(views, k) {
+  const v = views[k];
+  const main = pv.querySelector(".pv__main img");
+  main.src = `images/${v.src}`;
+  main.alt = v.label;
+  main.className = `crop-${v.crop}`;
+  pv.querySelectorAll(".pv__thumb").forEach((t, i) => t.setAttribute("aria-current", String(i === k)));
+}
+
+let pvReturnFocus = null;
+function openProduct(id) {
+  const p = byId(id);
+  if (!p) return;
+  const views = productViews(p);
+  pv.querySelector(".pv__collection").textContent = isCup(p) ? "Cups & mugs" : COLLECTION_NAME[p.type] || "";
+  pv.querySelector(".pv__name").innerHTML = (p.no ? `<span class="card__no">${pieceNo(p)}</span>` : "") + p.name;
+  pv.querySelector(".pv__price").innerHTML = p.soldOut ? `<s>${rupees(p.price)}</s> · Sold out` : rupees(p.price);
+  pv.querySelector(".pv__desc").textContent = DESCRIPTIONS[p.id] || "";
+  const rows = [["Code", `SC-${p.id}`], ["Glaze", p.glaze], ["Details", p.size], ["Care", isCup(p) ? "Hand-wash recommended." : CARE[p.type]]];
+  pv.querySelector(".pv__details").innerHTML = rows.filter((r) => r[1]).map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("");
+  const msg = p.soldOut
+    ? `Hi ${SHOP.name}! Will ${fullName(p)} (SC-${p.id}) be back in stock?`
+    : `Hi ${SHOP.name}! I'd like to order:
+• ${fullName(p)} (SC-${p.id}) – ${rupees(p.price)}
+
+Is it available?`;
+  pv.querySelector(".pv__actions").innerHTML = p.soldOut
+    ? `<a class="btn btn--wa" href="${waLink(msg)}" target="_blank" rel="noopener">Ask about a restock</a>`
+    : `<button class="btn btn--dark card__add" data-id="${p.id}">Add to bag</button>
+       <a class="btn btn--wa" href="${waLink(msg)}" target="_blank" rel="noopener">${WA_ICON} Order on WhatsApp</a>`;
+  pv.querySelector(".pv__thumbs").innerHTML = views.map((v, i) =>
+    `<button class="pv__thumb" data-view="${i}" aria-label="${v.label}"><img class="crop-${v.crop}" src="images/${v.src}" alt=""></button>`).join("");
+  pv.querySelector(".pv__thumbs").onclick = (e) => { const t = e.target.closest("[data-view]"); if (t) showView(views, +t.dataset.view); };
+  showView(views, 0);
+  pvReturnFocus = document.activeElement;
+  pv.hidden = false;
+  document.documentElement.classList.add("pv-open");
+  requestAnimationFrame(() => pv.classList.add("is-open"));
+  pv.querySelector(".pv__close").focus();
+  if (window.fx && window.fx.productOpened) window.fx.productOpened(pv);
+  history.replaceState(null, "", `#product-${p.id}`);
+}
+function closeProduct() {
+  if (pv.hidden) return;
+  pv.classList.remove("is-open");
+  document.documentElement.classList.remove("pv-open");
+  setTimeout(() => { pv.hidden = true; }, 300);
+  if (location.hash.startsWith("#product-")) history.replaceState(null, "", location.pathname + location.search);
+  if (pvReturnFocus) pvReturnFocus.focus();
+}
+pv.addEventListener("click", (e) => { if (e.target.closest("[data-pv-close]")) closeProduct(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeProduct(); });
+// Clicking a product's photo or name opens it (the buttons on the card keep their own job)
+document.addEventListener("click", (e) => {
+  const c = e.target.closest(".card");
+  if (!c || pv.contains(c) || e.target.closest("button, a, .card__quick")) return;
+  openProduct(+c.dataset.pid);
+});
+// Shared links like page.html#product-105 open that product straight away
+window.addEventListener("load", () => {
+  const m = location.hash.match(/^#product-(\d+)$/);
+  if (m) openProduct(+m[1]);
+});
+
 // Glaze-name ticker (listed twice so the loop is seamless)
 const glazeNames = [...new Set(PRODUCTS.map((p) => p.glaze).filter(Boolean))];
 const glazesEl = document.getElementById("glazes");
@@ -192,13 +345,12 @@ if (lampGrid) {
     lightSwitch.querySelector(".switch__label").textContent = off ? "Lights off" : "Lights on";
   });
 }
-// ---------- Home decor: a gallery wall of staggered columns (3 on wide screens, 2 on phones) ----------
-const decorWall = document.getElementById("decor-wall");
-if (decorWall) {
-  const decorItems = PRODUCTS.filter((p) => p.type === "decor");
+// ---------- Gallery walls (Home decor, Tableware): staggered columns, 3 on wide screens, 2 on phones ----------
+document.querySelectorAll(".decor__wall[data-gallery]").forEach((decorWall) => {
+  const decorItems = PRODUCTS.filter((p) => p.type === decorWall.dataset.gallery);
   let decorCols = 0;
   const buildDecor = () => {
-    const cols = window.matchMedia("(max-width: 640px)").matches ? 2 : 3;
+    const cols = Math.min(decorItems.length, window.matchMedia("(max-width: 640px)").matches ? 2 : 3);
     if (cols === decorCols) return;
     decorCols = cols;
     const buckets = Array.from({ length: cols }, () => []);
@@ -208,11 +360,11 @@ if (decorWall) {
       const p = byId(+el.dataset.pid);
       if (p && p.ar) el.querySelector(".card__img").style.aspectRatio = p.ar; // reserve the photo's real shape
     });
-    decorWall.dispatchEvent(new CustomEvent("decor:built"));
+    decorWall.dataset.cols = cols;
   };
   buildDecor();
   window.addEventListener("resize", buildDecor);
-}
+});
 // ---------- Catalogue: every product, with filters ----------
 let activeFilter = "all";
 const grid = document.getElementById("grid");
@@ -353,7 +505,8 @@ document.addEventListener("click", (e) => {
     saveBag(); renderBag();
     add.textContent = "Added ✓"; add.classList.add("added");
     setTimeout(() => { add.textContent = "Add to bag"; add.classList.remove("added"); }, 1200);
-    flyToBag(add.closest(".card").querySelector(".card__img img"));
+    const from = add.closest(".card, .pv"); // a product card, or the open product view
+    flyToBag(from && from.querySelector(".card__img img, .pv__main img"));
     toast(`${byId(id).name} added to your bag`);
     return;
   }
