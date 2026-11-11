@@ -100,8 +100,8 @@ document.querySelectorAll(".js-wa").forEach((a) => {
 document.querySelectorAll(".js-insta").forEach((a) => (a.href = `https://instagram.com/${SHOP.instagram}`));
 document.querySelectorAll(".js-insta-handle").forEach((a) => (a.textContent = "@" + SHOP.instagram));
 
-// ---------- Hero orbit: a ring of pieces from every collection, and a ring of words, around the emblem ----------
-// Where each collection's pieces lead when tapped, and the small tag shown on the card
+// ---------- Hero orbit: a ring of pieces from every collection around the emblem ----------
+// Where each collection's pieces lead when tapped (tag = name used for screen readers)
 const ORBIT_COLLECTIONS = {
   cup:   { tag: "Cups",       href: (p) => `shop.html?cat=${p.type}`, pick: (p) => isCup(p) },
   lamp:  { tag: "Lamps",      href: () => "lamps.html",               pick: (p) => p.type === "lamp" },
@@ -120,15 +120,9 @@ if (orbitRing) {
     const c = ORBIT_COLLECTIONS[key];
     return `
     <a class="orb" style="--i: ${i}" href="${c.href(p)}" aria-label="${p.name} (${c.tag})">
-      <span class="orb__in"><img src="images/${p.img}" alt="" loading="eager"><span class="orb__tag">${c.tag}</span></span>
+      <span class="orb__in"><img src="images/${p.img}" alt="" loading="eager"></span>
     </a>`;
   }).join("");
-}
-const orbitWords = document.getElementById("orbit-words");
-if (orbitWords) {
-  const phrase = [..."Cups · lamps · home decor · gifts · made by hand · "];
-  orbitWords.style.setProperty("--step", `${360 / phrase.length}deg`);
-  orbitWords.innerHTML = phrase.map((ch, i) => `<span style="--i: ${i}">${ch === " " ? "&nbsp;" : ch}</span>`).join("");
 }
 
 // Fill any placeholder that asks for a product's photo: <span data-cup="104"></span>

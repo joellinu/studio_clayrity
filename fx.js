@@ -125,7 +125,6 @@
   const orbit = $("#orbit");
   const tiltEl = $(".orbit__tilt");
   const ringEl = $("#orbit-ring");
-  const wordsEl = $("#orbit-words");
   const coinWrap = $(".coin");
   const coinSpin = $("#coin");
   const heroHead = $(".hero__head");
@@ -140,7 +139,7 @@
 
   titleLetters.forEach((l) => { l.style.opacity = 0; l.style.transform = "translateZ(-700px)"; });
   orbIns.forEach((o) => (o.style.opacity = 0));
-  [coinWrap, wordsEl, heroEyebrow, ...footBits].forEach((el) => (el.style.opacity = 0));
+  [coinWrap, heroEyebrow, ...footBits].forEach((el) => (el.style.opacity = 0));
 
   let ringA = 0, coinA = 0, coinBoost = 0, vel = 0, heroP = 0, titleSettled = Infinity, ripple = 0;
   let otx = 0, oty = 0, aimX = 0, aimY = 0, dragging = false, dragDist = 0, lastX = 0, lastT = 0, running = false, frameT = 0;
@@ -149,7 +148,6 @@
     coinBoost = 900; // the coin arrives spinning fast, then settles
     animate(coinWrap, { opacity: [0, 1], scale: [0.2, 1] }, { type: "spring", stiffness: 90, damping: 12 });
     animate(orbIns, { opacity: [0, 1], scale: [0.3, 1], y: [60, 0] }, { type: "spring", stiffness: 120, damping: 15, delay: stagger(0.06, { startDelay: 0.25 }) });
-    animate(wordsEl, { opacity: [0, 1] }, { duration: 1.2, delay: 0.9 });
     animate(heroEyebrow, { opacity: [0, 1], y: [12, 0] }, { duration: 0.8, ease: easeOut, delay: 0.2 });
     // Letters fly in from deep in the scene, tumbling, and lock into place
     titleLetters.forEach((l, i) => {
@@ -172,7 +170,6 @@
     tiltEl.style.transform =
       `translateZ(${(-240 - 520 * heroP).toFixed(1)}px) rotateX(${(-22 + oty - 18 * heroP).toFixed(2)}deg) rotateY(${otx.toFixed(2)}deg)`;
     ringEl.style.transform = `rotateY(${ringA.toFixed(2)}deg)`;
-    wordsEl.style.transform = `rotateY(${(-ringA * 1.6).toFixed(2)}deg)`;
     coinSpin.style.transform = `rotateY(${coinA.toFixed(2)}deg)`;
     // Title: a slow 3D sway (so its depth shows) plus a lean toward the mouse
     const sec = t / 1000;
