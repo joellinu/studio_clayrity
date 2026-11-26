@@ -26,7 +26,7 @@ const PRODUCTS = [
   {"id": 125, "name": "Celadon pebble cup, 230 ml", "type": "tea", "price": 900, "glaze": "Celadon Pebble", "size": "Speckled stoneware", "img": "cup-125.jpg", "ar": "800/1000"},
   {"id": 201, "name": "Stone collection, set of 6", "type": "sets", "price": 5900, "size": "Six glazes, gift boxed", "img": "scene-stone.jpg", "ar": "1200/896"},
   {"id": 202, "name": "Yunomi set of 7", "type": "sets", "price": 5600, "size": "Seven glazes, gift boxed", "img": "scene-table.jpg", "ar": "1200/896"},
-  {"id": 301, "name": "Pebble lantern", "type": "lamp", "price": 1450, "glaze": "Raw terracotta", "size": "Holds a pillar candle", "img": "lamp-pebble-lantern.jpg", "badge": "New", "soldOut": true, "ar": "800/1200"},
+  {"id": 301, "name": "Pebble lantern", "type": "lamp", "price": 1450, "glaze": "Raw terracotta", "size": "Holds a pillar candle", "img": "lamp-pebble-lantern.jpg", "badge": "New", "ar": "800/1200"},
   {"id": 302, "name": "Drip glaze bulb lamp", "type": "lamp", "price": 3200, "glaze": "Speckled cream", "size": "Brass holder, globe bulb", "img": "lamp-drip-bulb.jpg", "ar": "853/1280"},
   {"id": 303, "name": "Sea urchin lamp", "type": "lamp", "price": 3800, "glaze": "Bisque white", "size": "Hand-pierced, 22 cm", "img": "lamp-urchin.jpg", "badge": "Bestseller", "ar": "1200/1200"},
   {"id": 304, "name": "Hive lamp", "type": "lamp", "price": 4500, "glaze": "Unglazed stoneware", "size": "On a brick base", "img": "lamp-hive.jpg", "ar": "736/1104"},
