@@ -175,7 +175,7 @@ h1{{font-size:1.4rem;margin:0 0 4px}}h2{{font-size:1.05rem;margin-top:28px}}.whe
 li{{margin:6px 0}}.soft{{color:#7a6a5d}}a{{color:#b4532a}}</style></head>
 <body><main><h1>Studio Clayrity · website update</h1><p class="when">Last change: {now} (India time)</p>
 {body}<p class="soft"><a href="./">Open the website</a></p></main></body></html>
-""", encoding="utf-8")
+""", encoding="utf-8", newline="\n")
 
 
 def keep_collection_dropdown(ws):
@@ -325,7 +325,7 @@ def main(check_only=False, google=False):
         problems.append("Shop settings: the WhatsApp number should include the country code, e.g. 919876543210.")
 
     if link_cache and not check_only:
-        LINK_CACHE.write_text(json.dumps(link_cache, indent=1), encoding="utf-8")  # remember downloads, even if a later row has a problem
+        LINK_CACHE.write_text(json.dumps(link_cache, indent=1), encoding="utf-8", newline="\n")  # remember downloads, even if a later row has a problem
     for w in warnings:
         print("  note:", w)
     if problems:
@@ -360,7 +360,7 @@ def main(check_only=False, google=False):
         "};",
         "",
     ]
-    OUT.write_text("\n".join(js), encoding="utf-8")
+    OUT.write_text("\n".join(js), encoding="utf-8", newline="\n")  # same line endings on Windows and on GitHub
     print(f"\nUpdated data.js: {len(products)} products on the site.")
 
 
