@@ -1,6 +1,6 @@
 // GENERATED from site-content.xlsx by _src/update_from_excel.py.
 // To change products, prices or shop details, edit site-content.xlsx and run the update, not this file.
-const SHOP = {"name": "Studio Clayrity", "whatsapp": "910000000000", "instagram": "studio_clayrity", "announcement": "Ships pan-India in breakage-safe packaging"};
+const SHOP = {"name": "Studio Clayrity", "whatsapp": "918928576559", "instagram": "studio_clayrity", "announcement": "Ships pan-India in breakage-safe packaging"};
 const PRODUCTS = [
   {"id": 101, "name": "Moss drip cup, 200 ml", "type": "cappuccino", "price": 950, "glaze": "Moss Drip", "size": "Speckled stoneware", "img": "cup-101.jpg", "ar": "800/1000"},
   {"id": 102, "name": "Ember tumbler, 380 ml", "type": "tumbler", "price": 1250, "glaze": "Ember Shino", "size": "Throwing rings", "img": "cup-102.jpg", "ar": "800/1000"},
