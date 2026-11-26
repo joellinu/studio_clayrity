@@ -1,0 +1,22 @@
+# Studio Clayrity on Hostinger (GitHub Pages ignores this file).
+
+# Always use https
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# The behind-the-scenes files come along with the deployment: don't serve them
+RedirectMatch 404 ^/(_src|\.github|\.git)(/|$)
+RedirectMatch 404 \.(xlsx|bat|gs|py|mjs|md|yml)$
+
+# Products change from the Google Sheet at any time: pages and the product list are always checked for a newer copy
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js|css)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|webp|svg|woff2?)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+
+Options -Indexes
