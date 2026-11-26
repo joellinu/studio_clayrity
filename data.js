@@ -81,5 +81,5 @@ const DESCRIPTIONS = {
   406: "A crescent-shaped spoon rest with white glaze dripping over raw clay. It keeps the counter clean while you cook.",
   407: "A cratered, moon-like surface built up layer by layer. One of a kind, and perfect with a single branch.",
   408: "Hand-painted plates, cups and saucers with blue meadow flowers and soft yellow stripes: two plates, two cups and two saucers.",
-  307: "Hand-painted plates, cups and saucers with blue meadow flowers and soft yellow stripes: two plates, two cups and two saucers.",
+  307: "A handcrafted ceramic gourd with a sculptural silhouette and intricate perforated detailing. Its dark, textured finish and organic form bring a distinctive artistic touch to any space.",
 };
