@@ -17,6 +17,7 @@ if errorlevel 1 (
   exit /b 1
 )
 
+%GIT% add data.js site-content.xlsx images _src\photo-links.json 2>nul
 %GIT% add data.js site-content.xlsx images
 %GIT% diff --cached --quiet
 if not errorlevel 1 (
