@@ -3,6 +3,9 @@ Studio Clayrity: turn site-content.xlsx (the client's product sheet) into data.j
 
     python _src/update_from_excel.py            check the sheet and write data.js
     python _src/update_from_excel.py --check    only check, change nothing
+    python _src/update_from_excel.py --google   first download the client's Google Sheet (link in _src/google-sheet.txt)
+                                                into site-content.xlsx, then update; also writes update-status.html
+                                                (this is what the GitHub job runs every 10 minutes)
 
 It also fills in a code (SC-123) for any new product row that has none, and saves it back into the sheet,
 so each product keeps the same code (and shareable link) from then on.
@@ -23,6 +26,8 @@ XLSX = ROOT / "site-content.xlsx"
 OUT = ROOT / "data.js"
 IMAGES = ROOT / "images"
 LINK_CACHE = Path(__file__).resolve().parent / "photo-links.json"  # link -> photo file already downloaded
+SHEET_LINK = Path(__file__).resolve().parent / "google-sheet.txt"  # the client's Google Sheet link
+STATUS = ROOT / "update-status.html"  # page the client can open to see if her last change went live
 MAX_SIDE = 1200  # photos are resized so their longest side is at most this many pixels
 
 
@@ -122,6 +127,57 @@ def image_ratio(path):
     return None
 
 
+def download_google_sheet():
+    """Save the client's Google Sheet as site-content.xlsx (the sheet must be shared as 'Anyone with the link')."""
+    lines = [l.strip() for l in SHEET_LINK.read_text(encoding="utf-8").splitlines()] if SHEET_LINK.exists() else []
+    link = next((l for l in lines if l and not l.startswith("#")), "")
+    m = re.search(r"/spreadsheets/d/([\w-]{20,})", link)
+    if not m:
+        sys.exit(f"Put the Google Sheet's link in {SHEET_LINK.name} first.")
+    url = f"https://docs.google.com/spreadsheets/d/{m.group(1)}/export?format=xlsx"
+    req = urllib.request.Request(url, headers={"User-Agent": "StudioClayrityUpdater/1.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            data = r.read()
+    except Exception as e:
+        return f"Couldn't open the Google Sheet ({e}). Check it is shared as 'Anyone with the link can view'."
+    if data[:2] != b"PK":
+        return "Google didn't share the sheet. In Google Sheets, Share → General access → 'Anyone with the link' (Viewer)."
+    XLSX.write_bytes(data)
+    return None
+
+
+def write_status(ok, problems, notes):
+    """update-status.html: a plain page saying whether the last change went live, or what to fix.
+    It is only rewritten when the result changes, so an unchanged sheet makes no new commit."""
+    from datetime import datetime, timedelta, timezone
+    from html import escape
+    body = ("<p class='ok'>✓ The website matches the sheet.</p>" if ok else
+            "<p class='bad'>Your latest changes are <b>not on the website yet</b>. Fix these in the sheet; "
+            "the website updates by itself within about 15 minutes of the fix:</p><ul>"
+            + "".join(f"<li>{escape(p)}</li>" for p in problems) + "</ul>")
+    news = [n for n in notes if "no description" not in n]
+    if news:
+        body += "<h2>Notes</h2><ul>" + "".join(f"<li>{escape(n)}</li>" for n in news) + "</ul>"
+    missing = sum("no description" in n for n in notes)
+    if missing:
+        body += f"<p class='soft'>{missing} product(s) have no description yet.</p>"
+    sig = hashlib.sha1(body.encode()).hexdigest()[:12]
+    if STATUS.exists() and f"sig:{sig}" in STATUS.read_text(encoding="utf-8"):
+        return
+    now = datetime.now(timezone(timedelta(hours=5, minutes=30))).strftime("%d %b %Y, %I:%M %p")
+    STATUS.write_text(f"""<!doctype html><!-- sig:{sig} -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Website update status</title>
+<style>body{{margin:0;background:#f5efe6;color:#2b211b;font:16px/1.55 Arial,sans-serif}}main{{max-width:640px;margin:0 auto;padding:32px 16px}}
+h1{{font-size:1.4rem;margin:0 0 4px}}h2{{font-size:1.05rem;margin-top:28px}}.when{{color:#7a6a5d;margin:0 0 24px}}
+.ok{{background:#e3eedc;border-left:4px solid #5b7f4a;padding:12px 14px}}.bad{{background:#f7e1d7;border-left:4px solid #b4532a;padding:12px 14px}}
+li{{margin:6px 0}}.soft{{color:#7a6a5d}}a{{color:#b4532a}}</style></head>
+<body><main><h1>Studio Clayrity · website update</h1><p class="when">Last change: {now} (India time)</p>
+{body}<p class="soft"><a href="./">Open the website</a></p></main></body></html>
+""", encoding="utf-8")
+
+
 def keep_collection_dropdown(ws):
     """Excel stores the Collection dropdown (a list on another tab) in a form openpyxl drops on save: put it back."""
     from openpyxl.worksheet.datavalidation import DataValidation
@@ -138,7 +194,13 @@ def text(v):
     return "" if v is None else str(v).strip()
 
 
-def main(check_only=False):
+def main(check_only=False, google=False):
+    if google:
+        err = download_google_sheet()
+        if err:
+            print(err)
+            write_status(False, [err], [])
+            sys.exit(1)
     if not XLSX.exists():
         sys.exit(f"Can't find {XLSX.name} in the project folder.")
     wb = load_workbook(XLSX)
@@ -194,7 +256,8 @@ def main(check_only=False):
             code = str(n)
             used[code] = r
             ws.cell(row=r, column=cols["Code"], value=f"SC-{code}")
-            warnings.append(f"Row {r} ({name}): new product, given code SC-{code}.")
+            warnings.append(f"Row {r} ({name}): new product, given code SC-{code}."
+                            + (" Type SC-%s into its Code cell so it keeps this code." % code if google else ""))
 
         photos = [text(get(h)) for h in ("Main photo", "Photo 2", "Photo 3", "Photo 4")]
         photos = [p for p in photos if p]
@@ -266,15 +329,19 @@ def main(check_only=False):
     for w in warnings:
         print("  note:", w)
     if problems:
-        print("\nPlease fix these in site-content.xlsx, then run the update again:")
+        print("\nPlease fix these in the product sheet, then run the update again:")
         for p in problems:
             print("  -", p)
+        if google:
+            write_status(False, problems, warnings)
         sys.exit(1)
 
     if check_only:
         print(f"\nThe sheet looks good: {len(products)} products ready.")
         return
-    if any("given code" in w for w in warnings):
+    if google:
+        write_status(True, [], [w for w in warnings if not w.startswith("downloaded photo") or "small" in w])
+    elif any("given code" in w for w in warnings):
         try:
             keep_collection_dropdown(ws)
             wb.save(XLSX)  # keep the new codes in the sheet
@@ -298,4 +365,4 @@ def main(check_only=False):
 
 
 if __name__ == "__main__":
-    main(check_only="--check" in sys.argv)
+    main(check_only="--check" in sys.argv, google="--google" in sys.argv)

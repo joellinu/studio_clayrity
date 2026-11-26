@@ -1,24 +1,25 @@
 @echo off
-rem Studio Clayrity: publish the changes made in site-content.xlsx.
-rem Double-click this file. It checks the sheet, updates the site's product data and publishes it.
+rem Studio Clayrity: publish the Google Sheet now, instead of waiting for the automatic update (every 10 minutes).
 cd /d "%~dp0"
 set GIT="C:\Program Files\Git\cmd\git.exe"
 set GCM_INTERACTIVE=never
 
+%GIT% pull -q --rebase origin main
 echo.
-echo  Checking site-content.xlsx ...
+echo  Reading the Google Sheet ...
 echo.
-python _src\update_from_excel.py
+python _src\update_from_excel.py --google
 if errorlevel 1 (
   echo.
-  echo  Nothing was published. Fix the rows listed above, save the sheet, and run this again.
+  echo  Nothing was published. Fix the rows listed above in the Google Sheet, and run this again.
   echo.
   pause
   exit /b 1
 )
 
-%GIT% add data.js site-content.xlsx images _src\photo-links.json 2>nul
-%GIT% add data.js site-content.xlsx images
+%GIT% add data.js images _src\photo-links.json update-status.html
+%GIT% diff --cached --quiet -- data.js
+if errorlevel 1 (%GIT% add site-content.xlsx) else (%GIT% checkout -- site-content.xlsx)
 %GIT% diff --cached --quiet
 if not errorlevel 1 (
   echo.
@@ -28,7 +29,7 @@ if not errorlevel 1 (
   exit /b 0
 )
 
-%GIT% commit -q -m "Update products from site-content.xlsx"
+%GIT% commit -q -m "Update from the Google Sheet"
 %GIT% push -q origin main
 if errorlevel 1 (
   echo.

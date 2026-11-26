@@ -1,0 +1,2 @@
+# The client's product sheet in Google Sheets. Paste its link on the line below.
+# It must be shared as "Anyone with the link" (Viewer). The GitHub job reads it every 10 minutes.

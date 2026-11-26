@@ -1,0 +1,60 @@
+# Every 10 minutes: read the client's Google Sheet, download new Drive photos, rebuild data.js and publish.
+# Nothing is committed when the sheet hasn't changed. Run it at once from the Actions tab ("Run workflow").
+name: Update from Google Sheet
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-from-sheet
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skip until the sheet link is filled in
+        id: link
+        run: |
+          if grep -q 'docs.google.com/spreadsheets/d/' _src/google-sheet.txt; then echo "ready=yes" >> "$GITHUB_OUTPUT"; else echo "No Google Sheet link yet in _src/google-sheet.txt"; fi
+
+      - uses: actions/setup-python@v5
+        if: steps.link.outputs.ready == 'yes'
+        with:
+          python-version: "3.12"
+
+      - name: Update from the sheet
+        if: steps.link.outputs.ready == 'yes'
+        id: update
+        continue-on-error: true
+        run: |
+          pip install --quiet openpyxl pillow
+          python _src/update_from_excel.py --google
+
+      - name: Publish
+        if: steps.link.outputs.ready == 'yes'
+        run: |
+          git config user.name "Studio Clayrity sheet"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data.js images _src/photo-links.json update-status.html
+          # keep a copy of the sheet only when the website changed (a fresh download always differs byte-for-byte)
+          if git diff --cached --quiet -- data.js; then git checkout -- site-content.xlsx; else git add site-content.xlsx; fi
+          if git diff --cached --quiet; then echo "Website already matches the sheet."; else
+            git commit -q -m "Update from the Google Sheet"
+            git pull -q --rebase origin main
+            git push -q origin main
+          fi
+
+      - name: Report sheet problems
+        if: steps.update.outcome == 'failure'
+        run: |
+          echo "::error::The sheet has problems, so the products were not updated. See update-status.html on the site."
+          exit 1
