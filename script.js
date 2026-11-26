@@ -1,14 +1,11 @@
 // ============================================================
-//  SHOP SETTINGS: change these to the seller's real details
+//  Products, prices, descriptions and shop details live in site-content.xlsx.
+//  Running _src/update_from_excel.py (or 'Update website.bat') turns it into data.js,
+//  which every page loads before this file. Don't add products here.
 // ============================================================
-const SHOP = {
-  name: "Studio Clayrity",
-  whatsapp: "910000000000",     // country code + number, no "+" or spaces
-  instagram: "studio_clayrity", // handle without "@"
-};
 
 // ============================================================
-//  PRODUCTS: edit names, prices and photos here.
+//  PRODUCT FIELDS (generated into data.js from site-content.xlsx; for reference only)
 //  img: photo file in /images (cups are cup-<id>.jpg, so a new photo can simply replace the old file)
 //  type: espresso | cappuccino | tea | tumbler | mug | bowl | lamp | decor | tableware | sets
 //  gallery (optional): up to 4 photo files for the product view, e.g. ["cup-101.jpg", "cup-101-b.jpg", ...]
@@ -18,46 +15,6 @@ const SHOP = {
 //  no (optional): piece number for one-of-a-kind pieces, e.g. 7 → "No. 07"
 //  soldOut (optional): true to show "Sold out" and turn the button into a restock request
 // ============================================================
-const PRODUCTS = [
-  { id: 101, name: "Moss drip cup, 200 ml",          type: "cappuccino", price: 950,  glaze: "Moss Drip",       size: "Speckled stoneware", img: "cup-101.jpg" },
-  { id: 102, name: "Ember tumbler, 380 ml",          type: "tumbler",    price: 1250, glaze: "Ember Shino",     size: "Throwing rings",     img: "cup-102.jpg" },
-  { id: 103, name: "Sage speckle mug, 320 ml",       type: "mug",        price: 1150, glaze: "Sage Speckle",    size: "Pulled handle",      img: "cup-103.jpg" },
-  { id: 104, name: "Plum chawan, 300 ml",            type: "bowl",       price: 1350, glaze: "Plum Flux",       size: "One of a kind",      img: "cup-104.jpg", no: 12, badge: "New" },
-  { id: 105, name: "Indigo drip mug, 340 ml",        type: "mug",        price: 1200, glaze: "Indigo Cream",    size: "Pulled handle",      img: "cup-105.jpg", badge: "Bestseller" },
-  { id: 106, name: "Faceted tea cup, 160 ml",        type: "tea",        price: 850,  glaze: "Ochre Ash",       size: "Hand-carved facets", img: "cup-106.jpg" },
-  { id: 107, name: "Forest lace cup, 250 ml",        type: "cappuccino", price: 1050, glaze: "Forest Lace",     size: "Speckled stoneware", img: "cup-107.jpg" },
-  { id: 108, name: "Sunset belly mug, 300 ml",       type: "mug",        price: 1250, glaze: "Sunset Drip",     size: "Pulled handle",      img: "cup-108.jpg", badge: "Bestseller" },
-  { id: 109, name: "Rose quartz tumbler, 350 ml",    type: "tumbler",    price: 1200, glaze: "Rose Quartz",     size: "Speckled stoneware", img: "cup-109.jpg", badge: "New" },
-  { id: 110, name: "Cobalt bloom chawan, 350 ml",    type: "bowl",       price: 1400, glaze: "Cobalt Bloom",    size: "One of a kind",      img: "cup-110.jpg", no: 14 },
-  { id: 111, name: "Honey espresso cup, 90 ml",      type: "espresso",   price: 650,  glaze: "Honey Tenmoku",   size: "Iron-red base",      img: "cup-111.jpg" },
-  { id: 112, name: "Lagoon mug, 320 ml",             type: "mug",        price: 1150, glaze: "Lagoon",          size: "Pulled handle",      img: "cup-112.jpg" },
-  { id: 113, name: "Olive chawan, 400 ml",           type: "bowl",       price: 1450, glaze: "Olive Ash",       size: "Speckled stoneware", img: "cup-113.jpg", soldOut: true },
-  { id: 114, name: "Tide tumbler, 300 ml",           type: "tumbler",    price: 1150, glaze: "Tide",            size: "Throwing rings",     img: "cup-114.jpg" },
-  { id: 115, name: "Iron rust mug, 300 ml",          type: "mug",        price: 1250, glaze: "Iron Rust",       size: "Pulled handle",      img: "cup-115.jpg" },
-  { id: 116, name: "Garnet espresso cup, 100 ml",    type: "espresso",   price: 700,  glaze: "Garnet",          size: "Speckled stoneware", img: "cup-116.jpg", badge: "New" },
-  { id: 117, name: "Dusk tea cup, 220 ml",           type: "tea",        price: 900,  glaze: "Dusk Ash",        size: "Speckled stoneware", img: "cup-117.jpg", soldOut: true },
-  { id: 118, name: "Turquoise cappuccino mug, 250 ml", type: "mug",      price: 1100, glaze: "Turquoise Float", size: "Pulled handle",      img: "cup-118.jpg" },
-  { id: 119, name: "Emerald gold tumbler, 280 ml",   type: "tumbler",    price: 1100, glaze: "Emerald Gold",    size: "Speckled stoneware", img: "cup-119.jpg", badge: "Bestseller" },
-  { id: 121, name: "Merlot drip cup, 220 ml",        type: "cappuccino", price: 950,  glaze: "Merlot Drip",     size: "Speckled stoneware", img: "cup-121.jpg" },
-  { id: 123, name: "Ocean foam cup, 220 ml",         type: "cappuccino", price: 950,  glaze: "Ocean Foam",      size: "Speckled stoneware", img: "cup-123.jpg", badge: "New" },
-  { id: 125, name: "Celadon pebble cup, 230 ml",     type: "tea",        price: 900,  glaze: "Celadon Pebble",  size: "Speckled stoneware", img: "cup-125.jpg" },
-  { id: 201, name: "Stone collection, set of 6",     type: "sets",       price: 5900, size: "Six glazes, gift boxed", img: "scene-stone.jpg" },
-  { id: 202, name: "Yunomi set of 7",                type: "sets",       price: 5600, size: "Seven glazes, gift boxed", img: "scene-table.jpg" },
-  { id: 301, name: "Pebble lantern",                 type: "lamp",       price: 1450, glaze: "Raw terracotta",  size: "Holds a pillar candle",  img: "lamp-pebble-lantern.jpg", badge: "New" },
-  { id: 302, name: "Drip glaze bulb lamp",           type: "lamp",       price: 3200, glaze: "Speckled cream",  size: "Brass holder, globe bulb", img: "lamp-drip-bulb.jpg" },
-  { id: 303, name: "Sea urchin lamp",                type: "lamp",       price: 3800, glaze: "Bisque white",    size: "Hand-pierced, 22 cm",    img: "lamp-urchin.jpg", badge: "Bestseller" },
-  { id: 304, name: "Hive lamp",                      type: "lamp",       price: 4500, glaze: "Unglazed stoneware", size: "On a brick base",     img: "lamp-hive.jpg" },
-  { id: 305, name: "Coral tower lamp",               type: "lamp",       price: 5200, glaze: "Ash white",       size: "One of a kind",          img: "lamp-coral.jpg", no: 3 },
-  { id: 306, name: "Gourd night lamp",               type: "lamp",       price: 2400, glaze: "Smoked black",    size: "Pierced spiral, 26 cm",  img: "lamp-gourd.jpg", badge: "New" },
-  { id: 401, name: "Flower frog bowl",               type: "decor",      price: 1850, glaze: "Ivory",           size: "Holds stems upright",    img: "decor-flower-frog.jpg", ar: "880/1100", badge: "New" },
-  { id: 402, name: "Indigo wall pockets, set of 4",  type: "decor",      price: 3400, glaze: "Carved indigo",   size: "Hang on any wall",       img: "decor-wall-pockets.jpg", ar: "880/1100", badge: "Bestseller" },
-  { id: 403, name: "Leaf-print wall clock",          type: "decor",      price: 2600, glaze: "Sage slip",       size: "Real leaves pressed in, 30 cm", img: "decor-leaf-clock.jpg", ar: "733/1100" },
-  { id: 404, name: "Ridge vase",                     type: "decor",      price: 2200, glaze: "Raw terracotta",  size: "Hand-carved ridges",     img: "decor-ridge-vase.jpg", ar: "883/1100" },
-  { id: 405, name: "Ikebana bowl",                   type: "decor",      price: 1650, glaze: "Matte terracotta", size: "Footed, 20 cm",         img: "decor-ikebana-bowl.jpg", ar: "1/1" },
-  { id: 406, name: "Drip spoon rest",                type: "tableware",      price: 450,  glaze: "White over raw clay", size: "Kitchen counter",    img: "decor-spoon-rests.jpg", ar: "750/1000" },
-  { id: 407, name: "Moon crater vase",               type: "decor",      price: 2900, glaze: "Crater white",    size: "One of a kind",          img: "decor-moon-vase.jpg", ar: "1/1", no: 21 },
-  { id: 408, name: "Meadow dinner set",              type: "tableware",      price: 4800, glaze: "Hand-painted",    size: "2 plates, 2 cups, 2 saucers", img: "decor-dinner-set.jpg", ar: "733/1100" },
-];
 
 const FILTERS = [
   { key: "all",        label: "All" },
@@ -94,6 +51,13 @@ const matchesFilter = (p, key) =>
 const WA_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.8-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.4z"/></svg>`;
 
 const media = (p) => `<img src="images/${p.img}" alt="${fullName(p)}" loading="lazy">`;
+
+// Top-bar message from the sheet (empty = no bar)
+const announceEl = document.querySelector(".announce");
+if (announceEl && typeof SHOP.announcement === "string") {
+  if (SHOP.announcement) announceEl.textContent = SHOP.announcement;
+  else announceEl.remove();
+}
 
 // Shop-wide links
 document.querySelectorAll(".js-wa").forEach((a) => {
@@ -161,46 +125,6 @@ function card(p, { code = false } = {}) {
 // ============================================================
 //  PRODUCT DESCRIPTIONS (shown when a product is opened). Edit freely.
 // ============================================================
-const DESCRIPTIONS = {
-  101: "A deep moss-green glaze breaks into a pale, lacy drip halfway down, leaving the speckled stoneware foot bare to the touch. Sized for a flat white or a long cup of chai.",
-  102: "Tall and ringed from the wheel, glazed in a shino that flashes orange and rust where the flame touched it. Generous enough for iced coffee, water or a big pour of tea.",
-  103: "Soft sage over a cream glaze freckled with iron spots, with a thick pulled handle that fits three fingers. An everyday mug for slow mornings.",
-  104: "A low, wide chawan in a glossy plum glaze that pools into violet at the foot. Made for whisking matcha, and just as good for a small dessert.",
-  105: "Cream glaze poured over deep indigo runs in thick drips toward the raw clay foot. Our bestselling mug, with a comfortable pulled handle.",
-  106: "Its walls are carved into soft facets after throwing, so the ochre ash glaze catches the light at every angle. A handleless cup for green tea or a short coffee.",
-  107: "A rounded cup in dark forest green, edged with a pale lace glaze that drips over the belly. It sits nicely in two hands.",
-  108: "A round-bellied mug glazed in amber that melts into a red-brown drip over speckled clay. Warm to hold and hard to put down.",
-  109: "Pink and lilac speckles drift over a tall tumbler, with the glaze stopping in soft waves above the clay. Lovely with iced drinks or on a bedside table.",
-  110: "Cobalt and violet glazes bloom together in this one-of-a-kind chawan, with a single drip running to the foot. No two firings give the same pattern.",
-  111: "A small espresso cup in glossy honey tenmoku over an iron-red base. Just right for a double shot.",
-  112: "Turquoise and seafoam glazes swirl over the body and finish above a bare clay foot. A sturdy everyday mug with a pulled handle.",
-  113: "A wide chawan glazed in olive ash that runs into green drips over speckled stoneware. Sold out for now; ask us about the next firing.",
-  114: "Layered teal and blue glazes settle into a wave line around this ringed tumbler. Holds a tall glass of water or cold brew.",
-  115: "A rust-brown glaze rich with iron, with darker breaks where it thins at the rim. A heavy, reassuring mug.",
-  116: "Deep garnet red fades into speckled stoneware on this small, round espresso cup. New from our latest firing.",
-  117: "Smoky grey and charcoal glazes meet like a dusk sky on this handleless cup. Sold out for now; ask us about the next firing.",
-  118: "A turquoise float glaze with flecks of brown, on a mug sized just right for a cappuccino.",
-  119: "Emerald green dotted with gold crystals that run in drips toward the foot. One of our bestsellers.",
-  121: "Deep merlot red with a dark drip that loops around the lower half, on a handleless cup with a footed base.",
-  123: "Blue-green glaze topped with white, foam-like breaks, like a wave meeting the shore. New this season.",
-  125: "Pale celadon spotted with iron, on a soft pebble-shaped cup that sits comfortably in the hand.",
-  201: "Six cups and mugs in six different glazes, chosen to sit together on one shelf. Gift boxed and ready to give.",
-  202: "Seven tall handleless yunomi cups, each in its own reactive glaze. A colourful set for tea with the whole family.",
-  301: "Raw terracotta pierced with soft pebble-shaped openings. Drop in a pillar candle and it scatters warm light across the table.",
-  302: "Speckled cream glaze drips over dark stoneware, topped with a brass holder and a globe bulb. A small lamp for a desk or bedside.",
-  303: "Hundreds of holes, pierced by hand in rows like a sea urchin's shell. Switched on, it throws a field of light across the walls and ceiling.",
-  304: "A tall carved form with honeycomb openings, standing on a brick base. It glows from inside and casts large, soft patterns.",
-  305: "A sculpted tower of textured clay with openings like coral. One of a kind: this exact piece is the one you receive.",
-  306: "A smoked black gourd pierced with a spiral of light points and a leafy pattern. A gentle night light for a reading corner.",
-  401: "A shallow ivory bowl with a pierced lid that holds stems upright, for small ikebana-style arrangements of just a few flowers.",
-  402: "Four carved wall vases in indigo, each with its own pattern. Hang them together and add a single stem to each.",
-  403: "Real leaves are pressed into the clay before firing, leaving their veins in the sage surface. 30 cm across, with brass hour markers.",
-  404: "Hand-carved ridges wrap a wide terracotta vase. It holds a few garden flowers and looks just as good empty.",
-  405: "A matte terracotta bowl on a rounded foot, made for a kenzan and a branch or two.",
-  406: "A crescent-shaped spoon rest with white glaze dripping over raw clay. It keeps the counter clean while you cook.",
-  407: "A cratered, moon-like surface built up layer by layer. One of a kind, and perfect with a single branch.",
-  408: "Hand-painted plates, cups and saucers with blue meadow flowers and soft yellow stripes: two plates, two cups and two saucers.",
-};
 
 // The studio photo each cup was photographed in (used as one of the stand-in pictures)
 const SCENE_FOR = (id) =>
