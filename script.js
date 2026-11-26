@@ -96,7 +96,7 @@ if (orbitRing) {
 document.querySelectorAll("[data-cup]").forEach((el) => (el.innerHTML = media(byId(+el.dataset.cup))));
 
 // ---------- Product cards ----------
-function card(p, { code = false } = {}) {
+function card(p) {
   const label = p.soldOut ? "Sold out" : p.badge;
   const badge = label ? `<span class="badge${label === "Sold out" ? "" : " badge--light"}">${label}</span>` : "";
   const msg = p.soldOut
@@ -113,7 +113,6 @@ function card(p, { code = false } = {}) {
         ${media(p)}
         <div class="card__quick">${action}</div>
       </div>
-      ${code ? `<div class="card__code">SC-${p.id}</div>` : ""}
       <div class="card__info">
         <span class="card__name">${p.no ? `<span class="card__no">${pieceNo(p)}</span>` : ""}${p.name}</span>
         <span class="card__price">${rupees(p.price)}</span>
@@ -186,7 +185,7 @@ function openProduct(id) {
   pv.querySelector(".pv__name").innerHTML = (p.no ? `<span class="card__no">${pieceNo(p)}</span>` : "") + p.name;
   pv.querySelector(".pv__price").innerHTML = p.soldOut ? `<s>${rupees(p.price)}</s> · Sold out` : rupees(p.price);
   pv.querySelector(".pv__desc").textContent = DESCRIPTIONS[p.id] || "";
-  const rows = [["Code", `SC-${p.id}`], ["Glaze", p.glaze], ["Details", p.size], ["Care", isCup(p) ? "Hand-wash recommended." : CARE[p.type]]];
+  const rows = [["Glaze", p.glaze], ["Details", p.size], ["Care", isCup(p) ? "Hand-wash recommended." : CARE[p.type]]];
   pv.querySelector(".pv__details").innerHTML = rows.filter((r) => r[1]).map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("");
   const msg = p.soldOut
     ? `Hi ${SHOP.name}! Will ${fullName(p)} (SC-${p.id}) be back in stock?`
@@ -312,7 +311,7 @@ function renderGrid() {
   document.getElementById("count").textContent = `${list.length} ${list.length === 1 ? "piece" : "pieces"}`;
   const snap = window.fx && window.fx.snapshot(grid); // remember card positions so they can glide
   grid.innerHTML = list.length
-    ? list.map((p) => card(p, { code: true })).join("")
+    ? list.map((p) => card(p)).join("")
     : `<p class="grid__empty">Nothing here right now. <a href="#" class="js-wa-inline">Ask us on WhatsApp</a> about the next batch.</p>`;
   grid.querySelectorAll(".js-wa-inline").forEach((a) => {
     a.href = waLink(`Hi ${SHOP.name}! When is the next batch coming?`); a.target = "_blank";
