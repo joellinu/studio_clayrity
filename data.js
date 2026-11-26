@@ -40,7 +40,7 @@ const PRODUCTS = [
   {"id": 406, "name": "Drip spoon rest", "type": "tableware", "price": 450, "glaze": "White over raw clay", "size": "Kitchen counter", "img": "decor-spoon-rests.jpg", "ar": "750/1000"},
   {"id": 407, "name": "Moon crater vase", "type": "decor", "price": 2900, "glaze": "Crater white", "size": "One of a kind", "img": "decor-moon-vase.jpg", "no": 21, "ar": "1080/1080"},
   {"id": 408, "name": "Meadow dinner set", "type": "tableware", "price": 4800, "glaze": "Hand-painted", "size": "2 plates, 2 cups, 2 saucers", "img": "decor-dinner-set.jpg", "ar": "733/1100"},
-  {"id": 307, "name": "Black Lamp", "type": "lamp", "price": 5000, "glaze": "Hand-painted", "size": "1 Lamp", "img": "sc-307-1-a487bb.jpg", "ar": "675/1200"},
+  {"id": 307, "name": "Black Lamp", "type": "lamp", "price": 3000, "glaze": "Hand-painted", "size": "1 Lamp", "img": "sc-307-1-a487bb.jpg", "ar": "675/1200"},
 ];
 const DESCRIPTIONS = {
   101: "A deep moss-green glaze breaks into a pale, lacy drip halfway down, leaving the speckled stoneware foot bare to the touch. Sized for a flat white or a long cup of chai.",
