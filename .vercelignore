@@ -1,0 +1,7 @@
+# Behind-the-scenes files: kept in GitHub, not published on the website
+_src/
+.github/
+*.xlsx
+*.bat
+.htaccess
+.nojekyll
