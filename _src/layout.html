@@ -89,7 +89,9 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="vendor/motion.js"></script>
-  <script src="data.js"></script>
+  <!-- products change from the sheet at any time: fetch data.js fresh (at most a minute old) instead of a 10-minute browser copy -->
+  <script>document.write('<script src="data.js?v=' + Math.floor(Date.now() / 60000) + '"><\/script>');</script>
+  <noscript><script src="data.js"></script></noscript>
   <script src="script.js"></script>
   <script src="fx.js"></script>
 </body>
