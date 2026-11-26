@@ -17,7 +17,7 @@ var CODE_FROM = { // Collection -> first code number of its range (same as COLLE
 var REPO = "joellinu/studio_clayrity";
 var WORKFLOW = "update-from-sheet.yml";
 var WAIT_MINUTES = 2; // publish this long after the last edit, so a batch of edits goes out together
-var STATUS_PAGE = "https://joellinu.github.io/studio_clayrity/update-status.html";
+var STATUS_PAGE = "https://studioclayrity.com/update-status.html";
 
 function onOpen() {
   SpreadsheetApp.getUi().createMenu("Website")

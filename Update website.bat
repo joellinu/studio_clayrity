@@ -41,6 +41,6 @@ if errorlevel 1 (
 
 echo.
 echo  Published. The live site updates in about a minute:
-echo  https://joellinu.github.io/studio_clayrity/
+echo  https://studioclayrity.com/
 echo.
 pause
