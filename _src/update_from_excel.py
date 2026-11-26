@@ -122,6 +122,18 @@ def image_ratio(path):
     return None
 
 
+def keep_collection_dropdown(ws):
+    """Excel stores the Collection dropdown (a list on another tab) in a form openpyxl drops on save: put it back."""
+    from openpyxl.worksheet.datavalidation import DataValidation
+    if any("Lists!" in (dv.formula1 or "") for dv in ws.data_validations.dataValidation):
+        return
+    dv = DataValidation(type="list", formula1="Lists!$A$2:$A$11", allow_blank=True, showErrorMessage=True,
+                        errorTitle="Not in the list", error="Please choose one of the options in the list.",
+                        promptTitle="Pick from the list", prompt="Which page and tab the product appears on.")
+    dv.add(f"D{HEADER_ROW + 1}:D{max(ws.max_row, HEADER_ROW + 68)}")
+    ws.add_data_validation(dv)
+
+
 def text(v):
     return "" if v is None else str(v).strip()
 
@@ -264,6 +276,7 @@ def main(check_only=False):
         return
     if any("given code" in w for w in warnings):
         try:
+            keep_collection_dropdown(ws)
             wb.save(XLSX)  # keep the new codes in the sheet
         except PermissionError:
             sys.exit("\nsite-content.xlsx is open in Excel, so the new product codes can't be saved into it.\n"
